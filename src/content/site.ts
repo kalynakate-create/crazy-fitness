@@ -26,6 +26,25 @@ import type { LeadFormat, LeadGoal, SourceSection } from "@/lib/types";
 /* BRAND                                                                      */
 /* ========================================================================== */
 
+/**
+ * INSTAGRAM AUDIT — Stage 24, "REQUIRED BEFORE DESIGN".
+ *
+ * Read from the two public profiles on 15 Aug 2026. Everything sourced that way
+ * is marked `[IG]` below. These are Anastasia's own public statements about
+ * herself, which is good evidence but is not the same as her approving the
+ * wording for her own website: treat `[IG]` as "confirm at the copy review",
+ * not as settled.
+ *
+ * @crazy_fitness_t.a  — "Анастасія | Тренер | Нутриціолог", 7,049 followers
+ *   "10 років створюю сильних і впевнених дівчат завдяки фітнесу і авторській
+ *    програмі схуднення", "Вища освіта", "Засновниця @crazy_fitness__club"
+ *
+ * @crazy_fitness__club — "Спортзал фітнес клуб", 2,653 followers
+ *   "Силовий фітнес/Джампінг/TRX/BFB/Функціональні тренування", "місто Лубни"
+ *
+ * Not obtainable this way, and still blocking: prices, response time, surname,
+ * club address, ФОП details, FAQ answers, and every photograph.
+ */
 export const brand = {
   name: "Crazy Fitness",
   byline: "by Anastasia",
@@ -36,14 +55,22 @@ export const brand = {
   /** Surname, for the About H2 and the SEO title. Stage 5, section 05. */
   fullName: null as string | null,
 
-  /** City, used in the SEO title. Stage 22. */
-  city: null as string | null,
+  /** [IG] Stated on the club profile: "місто Лубни". Used in the SEO title. */
+  city: "Лубни",
 
-  /** Club address, shown in section 08 and the footer only when confirmed. */
+  /**
+   * Street address. The club profile has an "Адреса клубу" highlight, but its
+   * contents are inside a story and were not read. Not guessing at an address
+   * people would drive to.
+   */
   address: null as string | null,
 
   instagramHandle: "@crazy_fitness_t.a",
   instagramUrl: "https://instagram.com/crazy_fitness_t.a",
+
+  /** [IG] The club keeps its own account, which is the better link for §08. */
+  clubInstagramHandle: "@crazy_fitness__club",
+  clubInstagramUrl: "https://instagram.com/crazy_fitness__club",
 
   /** Telegram deep link. Until set, every Telegram fallback stays hidden. */
   telegramUrl: null as string | null,
@@ -101,10 +128,12 @@ export type TrustFact = {
  * and the club itself). The commented ones are still [УТОЧНИТИ].
  */
 export const trustFacts: TrustFact[] = [
+  // [IG] "10 років створюю сильних і впевнених дівчат". Her own public claim,
+  // and the figure the blueprint kept referring to.
+  { value: "10", label: "років практики", numeric: true },
   { value: "Тренер + нутриціолог", label: "одна людина, один план" },
-  { value: "Власний клуб", label: "Crazy Fitness" },
-  // { value: "10", label: "років практики", numeric: true },   // Opus Part 0.1
-  // { value: "—", label: "клієнток пройшли шлях", numeric: true }, // Opus Part 0.1
+  { value: "Власний клуб", label: "Crazy Fitness, Лубни" },
+  // Number of clients stays open: nowhere public states it. Opus Part 0.1.
 ];
 
 /* ========================================================================== */
@@ -172,9 +201,19 @@ export const method = {
 
 export const about = {
   eyebrow: "ЗАСНОВНИЦЯ",
-  /** Story and credentials are [CLIENT DATA REQUIRED]. Stage 5, section 05. */
+  /** The story itself is still [CLIENT DATA REQUIRED]. Stage 5, section 05. */
   story: null as string | null,
-  credentials: null as string[] | null,
+  /**
+   * [IG] Only what the profile actually claims. "Вища освіта" is vague on its
+   * own; the specific qualification and any certificates are still needed, and
+   * naming a qualification she has not claimed would be inventing a credential,
+   * which is the worst possible field to guess in.
+   */
+  credentials: [
+    "Вища освіта",
+    "Тренер і нутриціолог в одній людині",
+    "Засновниця клубу Crazy Fitness у Лубнах",
+  ] as string[] | null,
   portrait: null as string | null,
   cta: "Записатися на консультацію",
 };
@@ -222,9 +261,11 @@ export const services: Service[] = [
     id: "group",
     name: "Групові тренування",
     hook: "Малі групи в Crazy Fitness",
+    // [IG] Formats the club profile lists. Confirm which of these Anastasia
+    // runs herself before this goes live.
     includes: [
-      "Тренування в невеликій групі",
-      "Спільний темп і підтримка",
+      "Силовий фітнес, функціональні тренування",
+      "Джампінг, TRX, BFB",
       "Контроль техніки від тренера",
     ],
     forWhom: "Якщо легше починати не наодинці.",

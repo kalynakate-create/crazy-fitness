@@ -67,9 +67,11 @@ export function Club() {
               Записатися на пробне
             </Button>
           ) : (
+            // The club keeps its own account, so this points there rather than
+            // at the personal profile: the section is about the place.
             <Button
               variant="secondary"
-              href={brand.instagramUrl}
+              href={brand.clubInstagramUrl}
               onClick={() =>
                 track({ name: "instagram_click", params: { source_section: "club" } })
               }
