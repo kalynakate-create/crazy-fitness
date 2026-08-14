@@ -4,6 +4,26 @@ Implementation of `crazy-fitness-master-blueprint.md`. Stage 28 of that document
 is the source of truth; where this code and the blueprint disagree, the
 blueprint wins and the code is wrong.
 
+**Design preview:** https://kalynakate-create.github.io/crazy-fitness/
+
+That URL is for looking at and showing the client. It is **not** the product.
+GitHub Pages serves files and nothing else, so the lead form and the checkout
+have no endpoint there and say so rather than failing at the submit button. The
+real deployment is Vercel, per Stage 18, which is what makes `/api/lead` and
+`/api/order` exist at all.
+
+Redeploy the preview after a change:
+
+```bash
+pwsh -File scripts/deploy-preview.ps1
+```
+
+Pages serves the preview from the `gh-pages` branch rather than from Actions.
+`.github/workflows/deploy-pages.yml` is written and locally verified but not
+committed: pushing anything under `.github/workflows/` requires the `workflow`
+OAuth scope, and the branch route needs only `repo`. Grant that scope and the
+workflow can replace the script.
+
 Node is not installed system-wide on the machine this was built on. It lives at
 `F:\dev\node-v24.19.0-win-x64`, so put it on PATH first:
 
