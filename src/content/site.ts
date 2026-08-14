@@ -420,7 +420,22 @@ export const reviews: Review[] = [];
 export const instagram = {
   eyebrow: "СТЕЖ ЗА ПРОЦЕСОМ",
   heading: brand.instagramHandle,
-  posts: [] as string[],
+  /**
+   * [IG] Grid thumbnails from Anastasia's own profile, 360-512px wide. That is
+   * plenty at the size these tiles render (~230px on desktop) and is exactly
+   * what this section is: a window onto the feed.
+   *
+   * Six, not eight, so the row divides cleanly at every breakpoint (6 / 3 / 2).
+   * Replace with fresh exports whenever the feed moves on.
+   */
+  posts: [
+    "/instagram/post-00.jpg",
+    "/instagram/post-01.jpg",
+    "/instagram/post-02.jpg",
+    "/instagram/post-04.jpg",
+    "/instagram/post-06.jpg",
+    "/instagram/post-10.jpg",
+  ] as string[],
   cta: "Підписатися",
 };
 

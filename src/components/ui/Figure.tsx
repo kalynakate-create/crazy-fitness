@@ -72,7 +72,6 @@ export function Figure({
   placeholderNote,
 }: FigureProps) {
   const [failed, setFailed] = useState(false);
-  const [loaded, setLoaded] = useState(false);
 
   if (!src || failed) {
     return (
@@ -92,6 +91,18 @@ export function Figure({
       } ${className}`}
       style={fill ? undefined : { aspectRatio: ratio }}
     >
+      {/*
+        No JS-driven fade-in.
+
+        The obvious version gates opacity on an onLoad handler, and it is a trap:
+        a cached image can finish decoding before React attaches the listener, so
+        the event never fires and the photo sits at opacity 0 permanently. It
+        looks right on the first visit and breaks on the second — verified
+        happening here before this was removed.
+
+        The graphite plate behind already covers the loading gap, so the fade was
+        buying almost nothing and risking an invisible page. Correctness wins.
+      */}
       <Image
         src={src}
         alt={alt}
@@ -99,10 +110,7 @@ export function Figure({
         sizes={sizes}
         priority={priority}
         onError={() => setFailed(true)}
-        onLoad={() => setLoaded(true)}
-        className={`object-cover transition-opacity duration-300 ${
-          loaded ? "opacity-100" : "opacity-0"
-        }`}
+        className="object-cover"
       />
     </div>
   );
