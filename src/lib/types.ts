@@ -1,0 +1,115 @@
+/**
+ * DATA MODEL — Stage 19.
+ *
+ * `ConsultationRequest` is deliberately not a separate entity: it is the same
+ * shape as `Lead` with the same fields, and splitting them would be the
+ * enterprise-CRM complexity the blueprint rules out (Opus Part 12.2).
+ */
+
+export type LeadGoal = "start" | "plateau" | "nutrition" | "other";
+export type LeadFormat = "personal" | "group" | "online" | "unsure";
+export type ContactType = "phone" | "telegram";
+export type LeadStatus = "new" | "contacted" | "won" | "lost";
+
+export type SourceSection =
+  | "hero"
+  | "services"
+  | "product"
+  | "faq"
+  | "sticky-bar"
+  | "club";
+
+export type Utm = {
+  utmSource?: string;
+  utmMedium?: string;
+  utmCampaign?: string;
+};
+
+export type Lead = Utm & {
+  id: string;
+  createdAt: string;
+  goal: LeadGoal;
+  format: LeadFormat;
+  name: string;
+  contact: string;
+  contactType: ContactType;
+  consentAt: string;
+  note?: string;
+  sourceSection: SourceSection;
+  status: LeadStatus;
+};
+
+export type PaymentProvider = "monobank" | "wayforpay" | "liqpay" | "fondy";
+export type PaymentStatus = "pending" | "paid" | "failed" | "refunded";
+export type DeliveryStatus = "pending" | "delivered";
+
+export type Order = Utm & {
+  id: string;
+  createdAt: string;
+  productId: string;
+  buyerName: string;
+  buyerContact: string;
+  buyerEmail: string;
+  /** Kopiykas. Integer only — never a float for money. */
+  amount: number;
+  currency: "UAH";
+  paymentProvider: PaymentProvider;
+  paymentStatus: PaymentStatus;
+  deliveryStatus: DeliveryStatus;
+  deliveredAt?: string;
+  sourceSection?: SourceSection;
+};
+
+export type Product = {
+  id: string;
+  slug: string;
+  name: string;
+  /** Kopiykas. */
+  priceAmount: number;
+  currency: "UAH";
+  active: boolean;
+  deliveryAssetRef: string;
+};
+
+/** Payload accepted by POST /api/lead. */
+export type LeadInput = {
+  goal: LeadGoal;
+  format: LeadFormat;
+  name: string;
+  contact: string;
+  note?: string;
+  consent: boolean;
+  sourceSection: SourceSection;
+  utmSource?: string;
+  utmMedium?: string;
+  utmCampaign?: string;
+  /** Honeypot. Bots fill it, humans never see it. Stage 9. */
+  website?: string;
+  /** Client render timestamp, used for the sub-2-second submit check. */
+  renderedAt?: number;
+};
+
+/** Payload accepted by POST /api/order. */
+export type OrderInput = {
+  name: string;
+  email: string;
+  contact: string;
+  consent: boolean;
+  website?: string;
+  renderedAt?: number;
+  utmSource?: string;
+  utmMedium?: string;
+  utmCampaign?: string;
+};
+
+/**
+ * Telegram handles and Ukrainian phone numbers are both accepted in one field,
+ * detected by their first character. Stage 9.
+ */
+export function detectContactType(raw: string): ContactType | null {
+  const value = raw.trim();
+  if (/^@[A-Za-z0-9_]{4,32}$/.test(value)) return "telegram";
+  const digits = value.replace(/[\s()\-]/g, "");
+  if (/^(\+?38)?0\d{9}$/.test(digits)) return "phone";
+  return null;
+}

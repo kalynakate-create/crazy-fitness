@@ -1,0 +1,384 @@
+@import "tailwindcss";
+
+/* ============================================================================
+   DESIGN TOKENS — Stage 12 / Stage 13 of the blueprint.
+   This block is the single source of truth. Do not hardcode a hex anywhere
+   else in the codebase; if a value is missing here, add it here.
+   ========================================================================= */
+@theme {
+  /* --- Breakpoints: exactly three levels, Stage 13 --------------------- */
+  --breakpoint-*: initial;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1200px;
+
+  /* --- Colour, Stage 12.1 ---------------------------------------------- */
+  --color-ink: #0b0b0c;
+  --color-graphite: #151619;
+  --color-surface: #1c1e22;
+  --color-steel: #2a2c33;
+  --color-chalk: #f2f1ed;
+  --color-muted: #8a8d94;
+  --color-orange: #f15a28;
+  --color-orange-hover: #c63e0b;
+  --color-success: #3fb27f;
+  --color-error: #e5484d;
+
+  /* --- Type, Stage 12.2. Families are injected by next/font in layout --- */
+  --font-display: var(--font-unbounded), "Segoe UI", system-ui, sans-serif;
+  --font-sans: var(--font-manrope), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "Cascadia Mono", monospace;
+
+  /* --- Spacing scale, Stage 13 ----------------------------------------- */
+  --spacing-gut-sm: 16px;
+  --spacing-gut-md: 20px;
+  --spacing-gut-lg: 24px;
+
+  /* --- Radius: one system, athletic and sharp -------------------------- */
+  --radius-card: 4px;
+
+  /* --- Motion, Stage 15 ------------------------------------------------ */
+  --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* ============================================================================
+   BASE
+   ========================================================================= */
+@layer base {
+  :root {
+    color-scheme: dark;
+    --header-h: 64px;
+    /* Set by CookieBanner while it is open, so nothing that matters ends up
+       underneath it. See the comment in CookieBanner.tsx. */
+    --consent-h: 0px;
+  }
+
+  @media (min-width: 1200px) {
+    :root {
+      --header-h: 80px;
+    }
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-ink);
+    color: var(--color-chalk);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Anchor targets must clear the fixed header, Stage 25. */
+  [id] {
+    scroll-margin-top: calc(var(--header-h) + 24px);
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--color-orange);
+    color: var(--color-ink);
+  }
+
+  /* Keyboard users never see hover, so focus is designed separately. */
+  :focus-visible {
+    outline: 2px solid var(--color-orange);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Stage 15 / Stage 27 PHASE 07: reduced motion is a launch gate. */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ============================================================================
+   LAYOUT PRIMITIVES
+   Kept as single-class selectors so utilities always win over them.
+   ========================================================================= */
+@layer components {
+  /* Grid margins and max content width, Stage 13. */
+  .shell {
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: 20px;
+    max-width: calc(1320px + 40px);
+  }
+
+  @media (min-width: 768px) {
+    .shell {
+      padding-inline: 40px;
+      max-width: calc(1320px + 80px);
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .shell {
+      padding-inline: 80px;
+      max-width: calc(1320px + 160px);
+    }
+  }
+
+  /* 4 / 8 / 12 columns, Stage 13. */
+  .grid-site {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  @media (min-width: 768px) {
+    .grid-site {
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+      gap: 20px;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .grid-site {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 24px;
+    }
+  }
+
+  /* Vertical rhythm, Stage 13: 88px mobile, 160px desktop. */
+  .section {
+    padding-block: 88px;
+  }
+
+  @media (min-width: 1200px) {
+    .section {
+      padding-block: 160px;
+    }
+  }
+
+  /* ==========================================================================
+     TYPE SCALE — Stage 12.2, one class per row of that table.
+     ======================================================================= */
+  .t-display {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 44px;
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+  }
+
+  .t-h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 34px;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+  }
+
+  .t-h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+  }
+
+  .t-h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 1.2;
+  }
+
+  .t-body-l {
+    font-size: 17px;
+    line-height: 1.55;
+  }
+
+  .t-body {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  /* The wordmark rhythm from the logo: tracked caption under a heavy title. */
+  .t-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.4;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-muted);
+  }
+
+  .t-button {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 1;
+    letter-spacing: 0.01em;
+  }
+
+  @media (min-width: 768px) {
+    .t-display {
+      font-size: 72px;
+    }
+    .t-h1 {
+      font-size: 52px;
+    }
+    .t-h2 {
+      font-size: 36px;
+    }
+    .t-h3 {
+      font-size: 24px;
+    }
+    .t-body-l {
+      font-size: 18px;
+    }
+    .t-body {
+      font-size: 16px;
+    }
+    .t-button {
+      font-size: 16px;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .t-display {
+      font-size: 120px;
+    }
+    .t-h1 {
+      font-size: 72px;
+    }
+    .t-h2 {
+      font-size: 48px;
+    }
+    .t-h3 {
+      font-size: 28px;
+    }
+    .t-body-l {
+      font-size: 20px;
+    }
+    .t-body {
+      font-size: 17px;
+    }
+  }
+
+  /* ==========================================================================
+     SIGNATURE ELEMENT — the graduated scale, Stage 12.3 / Opus 8.4.
+     A gym is a place of measurement: reps, weeks, kilograms. The ruler is the
+     one motif allowed to repeat, and it only ever marks something real.
+     ======================================================================= */
+  .scale-rule {
+    --tick: var(--color-steel);
+    height: 14px;
+    width: 100%;
+    background-image: repeating-linear-gradient(
+      to right,
+      var(--tick) 0 1px,
+      transparent 1px 12px
+    );
+    background-position: left bottom;
+    background-repeat: repeat-x;
+    background-size: 12px 6px;
+    border-bottom: 1px solid var(--color-steel);
+  }
+
+  .scale-rule-v {
+    --tick: var(--color-steel);
+    width: 14px;
+    background-image: repeating-linear-gradient(
+      to bottom,
+      var(--tick) 0 1px,
+      transparent 1px 12px
+    );
+    background-position: right top;
+    background-repeat: repeat-y;
+    background-size: 6px 12px;
+    border-right: 1px solid var(--color-steel);
+  }
+
+  /* ==========================================================================
+     MOTION PRIMITIVES
+     Only transform and opacity are animated, Stage 15.
+     ======================================================================= */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  .reveal-in {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 600ms var(--ease-out-strong),
+      transform 600ms var(--ease-out-strong);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee var(--marquee-duration, 40s) linear infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+      animation: none;
+    }
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+
+  /* Horizontal galleries use native touch scrolling, never a JS pin. */
+  .drag-row {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .drag-row::-webkit-scrollbar {
+    display: none;
+  }
+
+  .drag-row > * {
+    scroll-snap-align: start;
+    flex: none;
+  }
+}

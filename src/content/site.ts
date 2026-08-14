@@ -1,0 +1,441 @@
+/**
+ * SINGLE SOURCE OF CONTENT.
+ *
+ * Two rules, both inherited from the blueprint and both non-negotiable
+ * (Opus Part 1.4 / 6.2 §09 / 10.4, restated in Stage 24):
+ *
+ *   1. `null` means [CLIENT DATA REQUIRED]. It is a real fact that Anastasia
+ *      has not confirmed yet. Never replace a `null` with a plausible number,
+ *      price, testimonial or timeframe. Components are written to handle
+ *      `null` by hiding the atom, the section, or the whole block. A site
+ *      that ships with a gap is fine. A site that ships with an invented
+ *      figure is not.
+ *
+ *   2. Strings that are present are COPY DIRECTION (Stage 5), not approved
+ *      copy. They describe format and process, never results, timeframes or
+ *      outcomes. The copywriting pass replaces them; nothing here claims a
+ *      result on Anastasia's behalf.
+ *
+ * Run the site in development to see `ContentGaps`, a live version of the
+ * Stage 24 checklist listing every remaining `null`.
+ */
+
+import type { LeadFormat, LeadGoal, SourceSection } from "@/lib/types";
+
+/* ========================================================================== */
+/* BRAND                                                                      */
+/* ========================================================================== */
+
+export const brand = {
+  name: "Crazy Fitness",
+  byline: "by Anastasia",
+
+  /** First name is a fact: the wordmark itself reads "BY ANASTASIA". */
+  ownerName: "Анастасія",
+
+  /** Surname, for the About H2 and the SEO title. Stage 5, section 05. */
+  fullName: null as string | null,
+
+  /** City, used in the SEO title. Stage 22. */
+  city: null as string | null,
+
+  /** Club address, shown in section 08 and the footer only when confirmed. */
+  address: null as string | null,
+
+  instagramHandle: "@crazy_fitness_t.a",
+  instagramUrl: "https://instagram.com/crazy_fitness_t.a",
+
+  /** Telegram deep link. Until set, every Telegram fallback stays hidden. */
+  telegramUrl: null as string | null,
+
+  email: null as string | null,
+
+  /**
+   * Stage 11 note: this exact value appears in the form microcopy AND in
+   * FAQ #8. It is stored once so the two can never drift apart, which is the
+   * failure the blueprint calls out by name.
+   */
+  responseTime: null as string | null,
+
+  /** Sole-trader details for the footer and /offer. Stage 24. */
+  legalEntity: null as string | null,
+} as const;
+
+/* ========================================================================== */
+/* 01 HERO — Concept A "MANIFEST" + the action card from Concept C (Stage 4)  */
+/* ========================================================================== */
+
+export const hero = {
+  /**
+   * COPY DIRECTION. The final headline is [CLIENT DATA REQUIRED] (Stage 5);
+   * this is the line the blueprint's own wireframe carries, split into the
+   * three masked lines the load sequence reveals in turn.
+   */
+  headlineLines: ["Форма,", "яка", "залишається"],
+  sub: "Тренер і нутриціолог.",
+  /** 9:16 vertical portrait, eyes in the upper third. Stage 4 / Stage 24. */
+  photo: null as string | null,
+  actionCard: {
+    title: "Консультація",
+    durationMin: 60,
+    priceFromAmount: null as number | null,
+    cta: "Обрати час",
+  },
+  secondary: { label: "Програма харчування", href: "/program" },
+};
+
+/* ========================================================================== */
+/* 02 TRUST STRIP — renders only with >= 2 confirmed facts (Stage 3)          */
+/* ========================================================================== */
+
+export type TrustFact = {
+  value: string;
+  label: string;
+  /** Numeric facts get the mono count-up treatment. */
+  numeric?: boolean;
+};
+
+/**
+ * Only add a fact here once Anastasia has confirmed it. Two entries below are
+ * established throughout the blueprint (the trainer + nutritionist positioning
+ * and the club itself). The commented ones are still [УТОЧНИТИ].
+ */
+export const trustFacts: TrustFact[] = [
+  { value: "Тренер + нутриціолог", label: "одна людина, один план" },
+  { value: "Власний клуб", label: "Crazy Fitness" },
+  // { value: "10", label: "років практики", numeric: true },   // Opus Part 0.1
+  // { value: "—", label: "клієнток пройшли шлях", numeric: true }, // Opus Part 0.1
+];
+
+/* ========================================================================== */
+/* 03 FOR WHOM                                                                */
+/* ========================================================================== */
+
+export const forWhom = {
+  eyebrow: "ДЛЯ КОГО ЦЕ",
+  heading: "Впізнала себе?",
+  /** States, not diagnoses. Opus 6.2 §03. */
+  states: [
+    "Починаєш у понеділок і зупиняєшся в середу.",
+    "Тренуєшся давно, а тіло не змінюється.",
+    "Знаєш про їжу все і досі не знаєш, що їсти.",
+    "Соромно зайти в зал, де всі ніби знають, що роблять.",
+  ],
+  cta: "Записатися на консультацію",
+};
+
+/* ========================================================================== */
+/* 04 METHOD — vertical timeline, orange progress line (Stage 3 / Stage 15)   */
+/* ========================================================================== */
+
+export type MethodStep = {
+  title: string;
+  body: string;
+  photo: string | null;
+};
+
+export const method = {
+  eyebrow: "ЯК ЦЕ ПРАЦЮЄ",
+  heading: "Система, а не мотивація",
+  /**
+   * COPY DIRECTION. Stage 5 marks the real process as [CLIENT DATA REQUIRED]:
+   * these four steps describe a structure, not Anastasia's actual protocol,
+   * and must be replaced with her own words before launch.
+   */
+  steps: [
+    {
+      title: "Розбираємось, де ти зараз",
+      body: "Спосіб життя, режим, травми, що вже пробувала і на чому зупинилась. Без цього будь-який план — це чужий план.",
+      photo: null,
+    },
+    {
+      title: "Складаємо план під твій графік",
+      body: "Тренування і харчування збираються навколо твого тижня, а не навпаки. План, який не вписується в життя, не виконується.",
+      photo: null,
+    },
+    {
+      title: "Працюємо і коригуємо",
+      body: "Техніка, навантаження, харчування. Раз на період дивимось, що працює, і міняємо те, що ні.",
+      photo: null,
+    },
+    {
+      title: "Ти залишаєшся з навичкою",
+      body: "Мета — щоб ти могла тримати форму без мене. Не залежність від тренера, а власне розуміння свого тіла.",
+      photo: null,
+    },
+  ] as MethodStep[],
+};
+
+/* ========================================================================== */
+/* 05 ABOUT                                                                   */
+/* ========================================================================== */
+
+export const about = {
+  eyebrow: "ЗАСНОВНИЦЯ",
+  /** Story and credentials are [CLIENT DATA REQUIRED]. Stage 5, section 05. */
+  story: null as string | null,
+  credentials: null as string[] | null,
+  portrait: null as string | null,
+  cta: "Записатися на консультацію",
+};
+
+/* ========================================================================== */
+/* 06 SERVICES — accordion, 3 to 7 rows without relayout (Stage 6)            */
+/* ========================================================================== */
+
+export type Service = {
+  id: string;
+  name: string;
+  hook: string;
+  includes: string[];
+  forWhom: string;
+  /** Nullable: shown as "Ціна за запитом" until confirmed. Stage 24. */
+  duration: string | null;
+  /** Kopiykas, integer. Money is never a float. Stage 19. */
+  priceFromAmount: number | null;
+  /** Pre-fills step 2 of the lead form so the choice is not made twice. */
+  prefillFormat: LeadFormat;
+  prefillGoal?: LeadGoal;
+};
+
+/**
+ * The four formats below are the ones the blueprint itself defines in the lead
+ * form (Stage 9, step 2). The final service list is [УТОЧНИТИ] — Opus Q10.
+ * Adding or removing rows here needs no layout work.
+ */
+export const services: Service[] = [
+  {
+    id: "personal",
+    name: "Персональні тренування",
+    hook: "Один на один, техніка під контролем",
+    includes: [
+      "Індивідуальний план тренувань",
+      "Постановка техніки з нуля",
+      "Коригування навантаження по ходу",
+    ],
+    forWhom: "Якщо потрібна увага до кожного руху і чіткий графік.",
+    duration: null,
+    priceFromAmount: null,
+    prefillFormat: "personal",
+  },
+  {
+    id: "group",
+    name: "Групові тренування",
+    hook: "Малі групи в Crazy Fitness",
+    includes: [
+      "Тренування в невеликій групі",
+      "Спільний темп і підтримка",
+      "Контроль техніки від тренера",
+    ],
+    forWhom: "Якщо легше починати не наодинці.",
+    duration: null,
+    priceFromAmount: null,
+    prefillFormat: "group",
+  },
+  {
+    id: "online",
+    name: "Онлайн-супровід",
+    hook: "З будь-якого міста, з відеозвітами",
+    includes: [
+      "План тренувань під твій зал або дім",
+      "Перевірка техніки по відео",
+      "Зв'язок у Telegram між тренуваннями",
+    ],
+    forWhom: "Якщо не можеш приїжджати в зал регулярно.",
+    duration: null,
+    priceFromAmount: null,
+    prefillFormat: "online",
+  },
+  {
+    id: "nutrition",
+    name: "Консультація нутриціолога",
+    hook: "Харчування без заборонених списків",
+    includes: [
+      "Розбір поточного раціону",
+      "Принципи, а не жорстке меню",
+      "Що робити у поїздках і на свята",
+    ],
+    forWhom: "Якщо тренування вже є, а харчування — головне вузьке місце.",
+    duration: null,
+    priceFromAmount: null,
+    prefillFormat: "unsure",
+    prefillGoal: "nutrition",
+  },
+];
+
+/* ========================================================================== */
+/* 07 NUTRITION PRODUCT                                                       */
+/* ========================================================================== */
+
+export const product = {
+  slug: "program",
+  eyebrow: "ЦИФРОВИЙ ПРОДУКТ",
+  name: "Програма харчування",
+  /** COPY DIRECTION. What is actually inside is [CLIENT DATA REQUIRED], Q12. */
+  benefits: [
+    "Принципи, за якими ти сама складаєш меню",
+    "Що робити, коли графік ламається",
+    "Списки покупок і заміни продуктів",
+  ],
+  /** In kopiykas, integer. Stage 19 forbids floats for money. */
+  priceAmount: null as number | null,
+  currency: "UAH",
+  /** Controls the "Тимчасово недоступно" badge, Stage 14. */
+  active: true,
+  mockup: null as string | null,
+  /** What the buyer actually receives. Required before payment goes live. */
+  deliveryAssetRef: null as string | null,
+  /** Hours to manual delivery, shown on /thank-you-order. Stage 7. */
+  deliveryHours: null as number | null,
+};
+
+/**
+ * /program — the six blocks of Stage 7, mapped from the abstract product flow.
+ *
+ * The "who this is not for" list is not a rhetorical device. It is part of the
+ * ethical block (Opus 10.4): a digital product sold to someone it cannot help
+ * is a refund at best. Keeping it specific also does more for trust than
+ * another list of benefits.
+ */
+export const programPage = {
+  what: {
+    heading: "Що це насправді",
+    body: null as string | null,
+  },
+  /** The real contents are [CLIENT DATA REQUIRED], Opus Q12. */
+  includes: null as string[] | null,
+  suits: [
+    "Ти вже тренуєшся, але харчування залишається здогадками",
+    "Тобі потрібні принципи, а не меню на тиждень",
+    "Ти хочеш розібратись сама, без постійного контролю",
+  ],
+  notSuits: [
+    "Ти шукаєш дієту, яка дасть результат за сім днів",
+    "Тобі потрібен індивідуальний план під медичний стан",
+    "Ти не готова готувати й планувати покупки",
+  ],
+  /** Real spreads from the actual document. Never mocked-up screenshots. */
+  spreads: [] as string[],
+  how: [
+    "Оформлюєш замовлення на цій сторінці",
+    "Переходиш на сторінку оплати банку",
+    "Отримуєш програму на пошту та в Telegram",
+    "Пишеш мені, якщо щось незрозуміло",
+  ],
+  /**
+   * ⚠ Required before launch and subject to legal review (Stage 24).
+   * Nothing on this site is medical advice, and that has to be stated plainly
+   * rather than buried in the offer document.
+   */
+  healthDisclaimer:
+    "Матеріали програми мають інформаційний характер і не є медичною порадою. " +
+    "Якщо ти маєш захворювання, вагітність або обмеження за здоров'ям, " +
+    "спершу порадься з лікарем.",
+};
+
+/* ========================================================================== */
+/* 08 CLUB                                                                    */
+/* ========================================================================== */
+
+export const club = {
+  eyebrow: "CRAZY FITNESS CLUB",
+  heading: "Тут працюють, а не фотографуються",
+  caption: "Зал, у якому все відбувається.",
+  photos: [] as string[],
+  /**
+   * Stage 3 branch. `true` -> "Записатися на пробне" into #zapys.
+   * `false` -> the section keeps its trust role but stops promising a slot
+   * that does not exist. Opus Q17 is still open, so the safe branch is false.
+   */
+  acceptingNewMembers: false,
+};
+
+/* ========================================================================== */
+/* 09 REVIEWS — thresholds in Stage 10                                        */
+/* ========================================================================== */
+
+export type Review = {
+  id: string;
+  kind: "quote" | "screenshot" | "photo";
+  /** Written consent on file. No consent, no publication. Stage 24. */
+  consentOnFile: boolean;
+  quote?: string;
+  author?: string;
+  image?: string;
+};
+
+/**
+ * Empty on purpose. Stage 10:
+ *   0 reviews  -> section is dropped from the release
+ *   1-2        -> single large quote block, no fake "feed"
+ *   3+         -> full mixed proof grid
+ */
+export const reviews: Review[] = [];
+
+/* ========================================================================== */
+/* 10 INSTAGRAM                                                               */
+/* ========================================================================== */
+
+export const instagram = {
+  eyebrow: "СТЕЖ ЗА ПРОЦЕСОМ",
+  heading: brand.instagramHandle,
+  posts: [] as string[],
+  cta: "Підписатися",
+};
+
+/* ========================================================================== */
+/* 11 FAQ — Stage 11. Answers come from the client only.                      */
+/* ========================================================================== */
+
+export type FaqItem = {
+  id: string;
+  question: string;
+  answer: string | null;
+};
+
+export const faq: FaqItem[] = [
+  { id: "shy", question: "Мені соромно, я давно не тренувалась — це нормально?", answer: null },
+  { id: "price", question: "Скільки коштує консультація і з чого складається ціна?", answer: null },
+  { id: "different", question: "Чим ти відрізняєшся від інших тренерів?", answer: null },
+  { id: "online", question: "Я в іншому місті й не можу приїхати в зал — це працює онлайн?", answer: null },
+  { id: "program", question: "Що саме входить у програму харчування — це просто PDF з порадами?", answer: null },
+  // Answer must stay free of numbers and deadlines. Opus Part 1.4.
+  { id: "howfast", question: "Як швидко буде результат?", answer: null },
+  { id: "notforme", question: "Що робити, якщо не піде або не сподобається?", answer: null },
+  // Must match brand.responseTime word for word. Stage 11.
+  { id: "reply", question: "За скільки ти відповідаєш на заявку?", answer: null },
+];
+
+/* ========================================================================== */
+/* 12 LEAD FORM                                                               */
+/* ========================================================================== */
+
+export const leadForm = {
+  eyebrow: "ЗАПИСАТИСЯ",
+  heading: "Розкажи, з чим прийшла",
+  goals: [
+    { value: "start", label: "Почати з нуля" },
+    { value: "plateau", label: "Зрушити з плато" },
+    { value: "nutrition", label: "Харчування" },
+    { value: "other", label: "Інше" },
+  ] as { value: LeadGoal; label: string }[],
+  formats: [
+    { value: "personal", label: "Персональні" },
+    { value: "group", label: "Групові" },
+    { value: "online", label: "Онлайн" },
+    { value: "unsure", label: "Ще не знаю" },
+  ] as { value: LeadFormat; label: string }[],
+};
+
+/* ========================================================================== */
+/* NAVIGATION                                                                 */
+/* ========================================================================== */
+
+export const nav: { label: string; href: string; section: SourceSection }[] = [
+  { label: "Про мене", href: "/#pro", section: "hero" },
+  { label: "Послуги", href: "/#poslugy", section: "services" },
+  { label: "Програма", href: "/program", section: "product" },
+];
+
+export const CTA_LABEL = "Записатися";
+export const ANCHOR = "#zapys";

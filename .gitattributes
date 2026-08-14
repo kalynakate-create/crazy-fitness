@@ -1,0 +1,15 @@
+# Normalise line endings in the repository to LF.
+# Authored on Windows, built on Ubuntu in CI: without this, shell steps in the
+# workflow can arrive with CRLF and fail in ways that are annoying to diagnose.
+* text=auto eol=lf
+
+# Binary assets must never be touched.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.avif binary
+*.woff binary
+*.woff2 binary
+*.ico binary
+*.pdf binary
