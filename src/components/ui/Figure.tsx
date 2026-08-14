@@ -17,6 +17,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { asset } from "@/lib/asset";
 
 type FigureProps = {
   src: string | null;
@@ -104,7 +105,7 @@ export function Figure({
         buying almost nothing and risking an invisible page. Correctness wins.
       */}
       <Image
-        src={src}
+        src={asset(src)}
         alt={alt}
         fill
         sizes={sizes}

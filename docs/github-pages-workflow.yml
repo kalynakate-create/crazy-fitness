@@ -1,0 +1,84 @@
+# NOT ACTIVE YET.
+#
+# Move this to .github/workflows/deploy-pages.yml to switch the preview from
+# scripts/deploy-preview.ps1 to CI. Pushing anything under .github/workflows/
+# requires the `workflow` OAuth scope, which the token used to create this
+# repository did not have; grant it with:
+#
+#   gh auth refresh -s workflow
+#
+# and then move the file and push. Until then the PowerShell script does the
+# same job from a laptop.
+#
+# ---------------------------------------------------------------------------
+# GitHub Pages — design preview only.
+#
+# Publishes a static export so the design can be reviewed from a public URL. It
+# is NOT a deployment of the product: Pages serves files and nothing else, so
+# the lead form and the checkout have no endpoint to talk to. Those need the
+# Next.js server, which is why Stage 18 picked Vercel.
+name: Deploy preview to Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      # `output: export` refuses to build POST route handlers, and it is right
+      # to: nothing on Pages could serve them. Dropped from the preview build
+      # only; the committed source keeps them.
+      - name: Drop server routes from the preview build
+        run: rm -rf src/app/api
+
+      - name: Build static export
+        env:
+          STATIC_EXPORT: "1"
+          PAGES_BASE_PATH: /${{ github.event.repository.name }}
+          # next/image does not apply basePath to an unoptimized src, so the app
+          # prefixes public asset paths itself. See src/lib/asset.ts. Without
+          # this every photograph 404s on Pages and nowhere else.
+          NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
+          NEXT_PUBLIC_STATIC_DEMO: "true"
+          NEXT_PUBLIC_SITE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
+        run: npm run build
+
+      # Without this, Pages runs the output through Jekyll, which ignores every
+      # directory beginning with an underscore — including _next.
+      - name: Disable Jekyll
+        run: touch out/.nojekyll
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

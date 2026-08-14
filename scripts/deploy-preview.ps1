@@ -40,6 +40,9 @@ try {
 
     $env:STATIC_EXPORT          = '1'
     $env:PAGES_BASE_PATH        = "/$Repo"
+    # next/image does not apply basePath to an unoptimized src, so the app
+    # prefixes public asset paths itself. See src/lib/asset.ts.
+    $env:NEXT_PUBLIC_BASE_PATH  = "/$Repo"
     $env:NEXT_PUBLIC_STATIC_DEMO = 'true'
     $env:NEXT_PUBLIC_SITE_URL   = "https://$Owner.github.io/$Repo"
 
@@ -51,7 +54,7 @@ finally {
     # Always restore, even if the build blew up. Losing the API routes to a
     # failed preview build would be a genuinely nasty surprise.
     if (Test-Path $parked) { Move-Item $parked $apiDir -Force }
-    Remove-Item Env:STATIC_EXPORT, Env:PAGES_BASE_PATH,
+    Remove-Item Env:STATIC_EXPORT, Env:PAGES_BASE_PATH, Env:NEXT_PUBLIC_BASE_PATH,
                 Env:NEXT_PUBLIC_STATIC_DEMO, Env:NEXT_PUBLIC_SITE_URL `
                 -ErrorAction SilentlyContinue
     Pop-Location
