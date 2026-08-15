@@ -1,5 +1,24 @@
 @import "tailwindcss";
 
+/**
+ * Tailwind v4 wraps `hover:` — and everything built on it, including
+ * `group-hover:` — in `@media (hover: hover)`. The intent is to stop hover
+ * styles sticking after a tap on touch devices.
+ *
+ * The cost is that any device reporting no hover capability loses every hover
+ * affordance on the site at once, silently. That includes Windows laptops with
+ * a touchscreen, which report touch as an available input even when a mouse is
+ * plugged in, and it is exactly the failure reported here: the rule ticks, the
+ * hero chips and the buttons all stopped responding together, while everything
+ * driven by JS or by focus kept working.
+ *
+ * Redefined to plain `:hover`, so the effects follow whatever pointer is
+ * actually present. The trade is that a tap may leave a hover state briefly on
+ * a touchscreen; every effect here is a colour or transform that reverts, so
+ * that is much cheaper than the affordances not existing.
+ */
+@custom-variant hover (&:hover);
+
 /* ============================================================================
    DESIGN TOKENS — Stage 12 / Stage 13 of the blueprint.
    This block is the single source of truth. Do not hardcode a hex anywhere
