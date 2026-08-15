@@ -25,8 +25,8 @@ type LogoProps = {
   className?: string;
 };
 
-/** Intrinsic ratios; only used to reserve space, the SVG scales to fit. */
-const MARK_RATIO = 1.15;
+/** Intrinsic ratios, used to reserve space. Measured from the asset: 576x624. */
+const MARK_RATIO = 0.923;
 const FULL_RATIO = 2.6;
 
 export function Logo({

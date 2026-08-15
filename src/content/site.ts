@@ -79,8 +79,15 @@ export const brand = {
    * second export.
    */
   logo: {
-    mark: null as string | null,
-    markLight: null as string | null,
+    /**
+     * Derived from the supplied artwork (IMG_0292.JPG, kept untouched beside
+     * them): the CF monogram with the dumbbell on the F's stroke, wordmark
+     * removed because it is illegible at the 26px the header renders, matted
+     * onto transparency and recoloured to the site's own tokens.
+     * Regenerate with scripts in the scratchpad if the source changes.
+     */
+    mark: "/logo/mark.png",
+    markLight: "/logo/mark-light.png",
     full: null as string | null,
   },
 
