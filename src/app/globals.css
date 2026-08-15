@@ -50,29 +50,40 @@
   --color-raised: #eae8e1;
   --color-line: #d9d6cd;
 
-  /* Type */
-  --color-strong: #0b0b0c;
-  --color-body: #23262b;
+  /* Type.
+     Pulled onto the logo's own dark, which is a blue-grey (#252C36 across
+     33k pixels of the mark), not the near-black the tokens were guessing at.
+     Headings sit a step deeper than the mark, body a step lighter, so the
+     hierarchy reads while the whole page stays in the logo's hue. */
+  --color-strong: #1e242d;
+  --color-body: #333a45;
   /* Tuned against `raised`, not `page`: secondary text has to clear 4.5:1 on
-     the darkest of the light surfaces, and #6A6D74 reached only 4.23 there. */
-  --color-subtle: #63666d;
+     the darkest of the light surfaces. Measured 4.87 there. */
+  --color-subtle: #5c6472;
 
   /* The single inverted band, so the digital product reads as a different kind
      of thing without needing a badge.
-     Warm dark, not black. Near-black put a 16:1 jump against the page, which
-     read as a hole punched in the layout rather than a change of material.
-     This is 8:1: still unmistakably a different surface, no longer a shock,
-     and warm enough to belong to the same palette as the cream. */
-  --color-invert: #4e473d;
+     Not black. Near-black put a 16:1 jump against the page, which read as a
+     hole punched in the layout rather than a change of material. This is
+     8.4:1: still unmistakably a different surface, no longer a shock, and now
+     carrying the logo's blue-grey rather than a warm tone borrowed from
+     nowhere. */
+  --color-invert: #3d4654;
   --color-invert-body: #f6f4ef;
-  --color-invert-subtle: #c2bdb2;
-  --color-invert-line: #6a6357;
+  --color-invert-subtle: #b9bfca;
+  --color-invert-line: #5a6478;
 
-  /* Accent: fills use orange, text uses the deep orange. */
-  --color-orange: #f15a28;
-  --color-orange-hover: #c63e0b;
-  --color-accent-text: #c63e0b;
-  --color-on-accent: #0b0b0c;
+  /* Accent: fills use the logo's own orange, text uses a deepened version.
+     #FF5E00 is measured from the mark, replacing the guessed #F15A28.
+
+     The hover fill only darkens as far as contrast allows: dark type on the
+     base orange measures 5.8:1 and on the hover 4.8:1, so the label stays
+     readable through the whole interaction. The earlier hover, #C63E0B, put
+     its own label at 3.8:1, which was already a quiet failure. */
+  --color-orange: #ff5e00;
+  --color-orange-hover: #e85200;
+  --color-accent-text: #b84200;
+  --color-on-accent: #14181f;
 
   --color-success: #1e7a54;
   --color-error: #c0272d;
