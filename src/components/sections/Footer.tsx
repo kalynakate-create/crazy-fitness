@@ -13,11 +13,91 @@
  */
 
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { Button } from "@/components/ui/Button";
 import { Wordmark } from "@/components/ui/Wordmark";
 import { CTA_LABEL, brand } from "@/content/site";
 import { track } from "@/lib/analytics";
 import { openLeadForm } from "@/lib/cta";
+
+/**
+ * A footer navigation column. Its links are laid out as a divided index, each
+ * on its own hairline-separated row, rather than a loose stack of text. The
+ * label of the eyebrow above sits on the first rule, so the whole column reads
+ * as one measured list.
+ */
+function FootColumn({ title, children }: { title: string; children: ReactNode }) {
+  return (
+    <nav aria-label={title}>
+      <p className="t-eyebrow mb-4">{title}</p>
+      <ul className="border-t border-line">{children}</ul>
+    </nav>
+  );
+}
+
+/**
+ * A footer link, in the site's own interaction language: on hover and on
+ * keyboard focus an orange underline sweeps in from the left, the label steps
+ * to the right, and an arrow slides out. The whole row is the target.
+ *
+ * Handles internal routes and external links from one call site so the three
+ * columns share exactly one implementation.
+ */
+function FootLink({
+  href,
+  external = false,
+  onClick,
+  children,
+}: {
+  href: string;
+  external?: boolean;
+  onClick?: () => void;
+  children: ReactNode;
+}) {
+  const inner = (
+    <>
+      {/* The underline that draws itself. scale-x, so it names `scale` in the
+          transition, not `transform`: Tailwind v4 compiles it to the standalone
+          property. */}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-2 left-0 h-px w-full origin-left scale-x-0 bg-orange transition-[scale] duration-300 ease-[var(--ease-out-strong)] group-hover:scale-x-100 group-focus-visible:scale-x-100"
+      />
+      <span className="t-body text-body transition-[translate,color] duration-300 ease-[var(--ease-out-strong)] group-hover:translate-x-1 group-hover:text-accent-text group-focus-visible:translate-x-1 group-focus-visible:text-accent-text">
+        {children}
+      </span>
+      <span
+        aria-hidden="true"
+        className="translate-x-[-6px] text-accent-text opacity-0 transition-[translate,opacity] duration-300 ease-[var(--ease-out-strong)] group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100"
+      >
+        →
+      </span>
+    </>
+  );
+
+  const className =
+    "group relative flex items-center justify-between gap-4 border-b border-line py-4";
+
+  return (
+    <li>
+      {external ? (
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={onClick}
+          className={className}
+        >
+          {inner}
+        </a>
+      ) : (
+        <Link href={href} onClick={onClick} className={className}>
+          {inner}
+        </Link>
+      )}
+    </li>
+  );
+}
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -41,86 +121,44 @@ export function Footer() {
         </div>
 
         <div className="mt-20 grid gap-10 border-t border-line pt-12 md:grid-cols-2 lg:grid-cols-4">
-          <div>
-            <p className="t-eyebrow mb-5">Зв'язок</p>
-            <ul className="grid gap-3">
-              <li>
-                <a
-                  href={brand.instagramUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() =>
-                    track({ name: "instagram_click", params: { source_section: "hero" } })
-                  }
-                  className="t-body inline-block py-1 text-body transition-colors hover:text-accent-text"
-                >
-                  Instagram {brand.instagramHandle}
-                </a>
-              </li>
-              {brand.telegramUrl && (
-                <li>
-                  <a
-                    href={brand.telegramUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() =>
-                      track({ name: "telegram_click", params: { source_section: "hero" } })
-                    }
-                    className="t-body inline-block py-1 text-body transition-colors hover:text-accent-text"
-                  >
-                    Telegram
-                  </a>
-                </li>
-              )}
-              {brand.email && (
-                <li>
-                  <a
-                    href={`mailto:${brand.email}`}
-                    className="t-body inline-block py-1 text-body transition-colors hover:text-accent-text"
-                  >
-                    {brand.email}
-                  </a>
-                </li>
-              )}
-            </ul>
-          </div>
+          <FootColumn title="Зв'язок">
+            <FootLink
+              href={brand.instagramUrl}
+              external
+              onClick={() =>
+                track({ name: "instagram_click", params: { source_section: "hero" } })
+              }
+            >
+              Instagram {brand.instagramHandle}
+            </FootLink>
+            {brand.telegramUrl && (
+              <FootLink
+                href={brand.telegramUrl}
+                external
+                onClick={() =>
+                  track({ name: "telegram_click", params: { source_section: "hero" } })
+                }
+              >
+                Telegram
+              </FootLink>
+            )}
+            {brand.email && (
+              <FootLink href={`mailto:${brand.email}`} external>
+                {brand.email}
+              </FootLink>
+            )}
+          </FootColumn>
 
-          <div>
-            <p className="t-eyebrow mb-5">Сайт</p>
-            <ul className="grid gap-3">
-              <li>
-                <Link href="/#poslugy" className="t-body inline-block py-1 text-body hover:text-accent-text">
-                  Послуги
-                </Link>
-              </li>
-              <li>
-                <Link href="/program" className="t-body inline-block py-1 text-body hover:text-accent-text">
-                  Програма харчування
-                </Link>
-              </li>
-              <li>
-                <Link href="/#pro" className="t-body inline-block py-1 text-body hover:text-accent-text">
-                  Про мене
-                </Link>
-              </li>
-            </ul>
-          </div>
+          <FootColumn title="Сайт">
+            <FootLink href="/#poslugy">Послуги</FootLink>
+            <FootLink href="/program">Програма харчування</FootLink>
+            <FootLink href="/#pro">Про мене</FootLink>
+          </FootColumn>
 
-          <div>
-            <p className="t-eyebrow mb-5">Документи</p>
-            <ul className="grid gap-3">
-              <li>
-                <Link href="/privacy" className="t-body inline-block py-1 text-body hover:text-accent-text">
-                  Політика конфіденційності
-                </Link>
-              </li>
-              <li>
-                <Link href="/offer" className="t-body inline-block py-1 text-body hover:text-accent-text">
-                  Публічна оферта
-                </Link>
-              </li>
-            </ul>
-          </div>
+          <FootColumn title="Документи">
+            <FootLink href="/privacy">Політика конфіденційності</FootLink>
+            <FootLink href="/offer">Публічна оферта</FootLink>
+          </FootColumn>
 
           {(brand.address || brand.legalEntity) && (
             <div>
