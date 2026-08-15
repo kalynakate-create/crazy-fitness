@@ -12,7 +12,7 @@
  */
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Logo } from "@/components/ui/Logo";
 import { CTA_LABEL, nav } from "@/content/site";
@@ -22,13 +22,43 @@ import { openLeadForm, seedCtaFromUrl } from "@/lib/cta";
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const progressRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     seedCtaFromUrl();
-    const onScroll = () => setScrolled(window.scrollY > 24);
+
+    /**
+     * Reading progress, drawn as the same measuring rule the rest of the site
+     * uses. It marks something real (how far down the page you are), which is
+     * the test every instance of that motif has to pass.
+     *
+     * Written straight to the node rather than through state: this fires on
+     * every scroll frame, and re-rendering the header that often to move one
+     * line would be wasteful.
+     */
+    let frame = 0;
+    const onScroll = () => {
+      setScrolled(window.scrollY > 24);
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        const bar = progressRef.current;
+        if (!bar) return;
+        const runway =
+          document.documentElement.scrollHeight - window.innerHeight;
+        const ratio = runway > 0 ? Math.min(1, window.scrollY / runway) : 0;
+        bar.style.transform = `scaleX(${ratio})`;
+      });
+    };
+
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (frame) cancelAnimationFrame(frame);
+    };
   }, []);
 
   useEffect(() => {
@@ -112,6 +142,22 @@ export function Header() {
             />
           </span>
         </button>
+      </div>
+
+      {/* Sits on the header's own bottom edge, so it reads as the bar being
+          measured rather than as a separate widget. Only once the page has
+          moved: a progress gauge at zero is noise. */}
+      <div
+        aria-hidden="true"
+        className={`absolute inset-x-0 bottom-0 h-[2px] transition-opacity duration-300 ${
+          scrolled ? "opacity-100" : "opacity-0"
+        }`}
+      >
+        <div
+          ref={progressRef}
+          className="h-full w-full origin-left bg-orange"
+          style={{ transform: "scaleX(0)" }}
+        />
       </div>
 
       <div

@@ -351,6 +351,39 @@
     border-bottom: 1px solid var(--color-line);
   }
 
+  /* Interactive variant of the rule: real tick elements instead of a painted
+     gradient, so each one can answer the cursor. The painted ticks are dropped
+     only once real ones exist, which keeps the static rule intact wherever the
+     effect does not run (touch, reduced motion, no JS). */
+  .cf-rule {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+
+  .cf-rule:has(.cf-tick) {
+    background-image: none;
+  }
+
+  .cf-tick {
+    display: block;
+    width: 1px;
+    height: 6px;
+    background: var(--color-line);
+    transform-origin: bottom;
+    /* Shorter than the frame-by-frame updates driving it, so ticks trail the
+       cursor slightly and settle after it rather than snapping. */
+    transition:
+      transform 200ms var(--ease-out-strong),
+      opacity 200ms var(--ease-out-strong);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cf-tick {
+      transition: none;
+    }
+  }
+
   .scale-rule-v {
     --tick: var(--color-line);
     width: 14px;

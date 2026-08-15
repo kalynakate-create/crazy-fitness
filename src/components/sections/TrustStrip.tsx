@@ -9,6 +9,7 @@
  */
 
 import { Marquee } from "@/components/ui/Marquee";
+import { ScaleDivider } from "@/components/ui/ScaleDivider";
 import { trustFacts } from "@/content/site";
 
 function Fact({ value, label }: { value: string; label: string }) {
@@ -36,8 +37,11 @@ export function TrustStrip() {
         </Marquee>
       </div>
 
-      {/* Desktop: the facts sit on the measuring rule, one tick each. */}
+      {/* Desktop: the facts sit on the measuring rule, one tick each, exactly
+          as the Stage 25 wireframe draws it. The rule is the interactive one,
+          so this is where the motif is closest to hand. */}
       <div className="shell hidden lg:block">
+        <ScaleDivider className="pt-6" />
         <ul className="flex items-stretch justify-between divide-x divide-line py-7">
           {trustFacts.map((fact) => (
             <li key={fact.value} className="flex-1 px-8 first:pl-0 last:pr-0">

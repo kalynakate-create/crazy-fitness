@@ -14,6 +14,7 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
+import { Wordmark } from "@/components/ui/Wordmark";
 import { CTA_LABEL, brand } from "@/content/site";
 import { track } from "@/lib/analytics";
 import { openLeadForm } from "@/lib/cta";
@@ -142,12 +143,10 @@ export function Footer() {
           width with room to spare. Decorative and aria-hidden; the brand name
           is in real text on the line below. */}
       <div className="mt-20 overflow-hidden border-t border-line">
-        <p
-          aria-hidden="true"
+        <Wordmark
+          text="Crazy Fitness"
           className="whitespace-nowrap pt-8 text-center font-[family-name:var(--font-display)] text-[9.6vw] font-extrabold uppercase leading-[0.85] tracking-[-0.04em] text-line"
-        >
-          Crazy Fitness
-        </p>
+        />
       </div>
 
       <div className="shell flex flex-wrap items-center justify-between gap-4 py-8">
