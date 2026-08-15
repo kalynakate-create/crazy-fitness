@@ -143,18 +143,16 @@ export function Hero() {
                   onClick={() => choose(entry.goal, entry.label)}
                   className="group relative flex w-full items-center justify-between gap-6 rounded-[var(--radius-card)] border border-line px-6 py-4 text-left transition-[border-color,background-color,scale] duration-200 hover:border-orange hover:bg-orange/5 focus-visible:border-orange active:scale-[0.985] md:w-auto md:px-8"
                 >
-                  {/* This answer's stretch of the rule, claimed along it
-                      horizontally rather than hung beneath it as a tick. It
-                      sits exactly on the hairline above the chip, so hovering
-                      does not draw a new line, it colours in the one already
-                      there. Answers hover and keyboard focus alike.
+                  {/* The tick this answer stands on: vertical, dropping from
+                      the rule to the chip. It grows and takes the accent on
+                      hover and on keyboard focus alike.
 
-                      transition names `scale`: Tailwind v4 compiles scale-x-*
+                      transition names `scale`: Tailwind v4 compiles scale-y-*
                       to the standalone scale property, and naming `transform`
-                      would make it snap instead of sweep. */}
+                      would make it snap instead of grow. */}
                   <span
                     aria-hidden="true"
-                    className="pointer-events-none absolute -top-6 left-0 right-0 h-[2px] origin-left scale-x-0 bg-orange transition-[scale] duration-500 ease-[var(--ease-out-strong)] group-hover:scale-x-100 group-focus-visible:scale-x-100"
+                    className="pointer-events-none absolute -top-6 left-7 h-6 w-[2px] origin-top scale-y-[0.4] bg-line transition-[scale,background-color] duration-300 ease-[var(--ease-out-strong)] group-hover:scale-y-100 group-hover:bg-orange group-focus-visible:scale-y-100 group-focus-visible:bg-orange md:left-9"
                   />
                   <span className="t-button text-strong">{entry.label}</span>
                   <span

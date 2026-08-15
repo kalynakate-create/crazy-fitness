@@ -370,11 +370,12 @@
     background-image: none;
   }
 
+  /* The tick is now a frame; the bar inside it is what you see. The outer
+     layer answers the cursor, the inner one carries the ambient wave. */
   .cf-tick {
     display: block;
     width: 1px;
     height: 6px;
-    background: var(--color-line);
     transform-origin: bottom;
     /* Shorter than the frame-by-frame updates driving it, so ticks trail the
        cursor slightly and settle after it rather than snapping. */
@@ -383,9 +384,35 @@
       opacity 200ms var(--ease-out-strong);
   }
 
+  /* A slow swell travelling along the rule, so the instrument reads as live
+     before anyone touches it. The phase offset per tick is what makes it
+     travel rather than pulse in unison; amplitude stays low enough that it is
+     movement at the edge of vision, not a thing demanding to be watched. */
+  .cf-tick-wave {
+    display: block;
+    height: 100%;
+    width: 100%;
+    background: var(--color-line);
+    transform-origin: bottom;
+    animation: cf-wave 2.6s ease-in-out infinite;
+  }
+
+  @keyframes cf-wave {
+    0%,
+    100% {
+      transform: scaleY(1);
+    }
+    50% {
+      transform: scaleY(1.85);
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .cf-tick {
       transition: none;
+    }
+    .cf-tick-wave {
+      animation: none;
     }
   }
 

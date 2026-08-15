@@ -65,9 +65,25 @@ function useCursorTicks() {
       if (!width) return;
       const count = Math.max(8, Math.floor(width / TICK_GAP));
       host.replaceChildren();
-      ticks = Array.from({ length: count }, () => {
+      ticks = Array.from({ length: count }, (_, i) => {
         const tick = document.createElement("span");
         tick.className = "cf-tick";
+
+        /**
+         * Two layers per tick, because they carry two different motions.
+         *
+         * The outer span is the cursor's, written from the rAF loop. The inner
+         * span carries a standing wave that travels along the rule on its own,
+         * as a CSS animation with a phase offset per tick, so the whole effect
+         * costs zero JS per frame. Nesting them keeps the two off each other's
+         * transform: a CSS animation outranks an inline style, so sharing one
+         * element would mean the wave silently eating the cursor response.
+         */
+        const wave = document.createElement("i");
+        wave.className = "cf-tick-wave";
+        wave.style.animationDelay = `${-(i * 0.05).toFixed(2)}s`;
+        tick.appendChild(wave);
+
         host.appendChild(tick);
         return tick;
       });
