@@ -34,6 +34,10 @@ export function Method() {
     if (!track || !fill) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       fill.style.transform = "scaleY(1)";
+      // The line is complete, so every marker it passes is complete too.
+      track
+        .querySelectorAll<HTMLElement>("[data-step-marker]")
+        .forEach((marker) => (marker.dataset.lit = "true"));
       return;
     }
 
@@ -44,6 +48,37 @@ export function Method() {
       ([{ gsap }, { ScrollTrigger }]) => {
         if (disposed) return;
         gsap.registerPlugin(ScrollTrigger);
+
+        /**
+         * Each marker lights as the fill reaches it.
+         *
+         * Their positions are measured as a fraction of the track rather than
+         * given their own triggers, so a marker can never light early or late
+         * relative to the line that is supposed to be reaching it: both read
+         * the same progress value. Re-measured on refresh, because the offsets
+         * move whenever the steps reflow.
+         */
+        const markers = Array.from(
+          track.querySelectorAll<HTMLElement>("[data-step-marker]"),
+        );
+        let offsets: number[] = [];
+
+        const measure = () => {
+          const trackTop = track.getBoundingClientRect().top + window.scrollY;
+          const height = track.offsetHeight || 1;
+          offsets = markers.map((marker) => {
+            const box = marker.getBoundingClientRect();
+            const centre = box.top + window.scrollY + box.height / 2;
+            return (centre - trackTop) / height;
+          });
+        };
+
+        const light = (progress: number) => {
+          markers.forEach((marker, i) => {
+            const reached = progress >= (offsets[i] ?? 1);
+            marker.dataset.lit = reached ? "true" : "false";
+          });
+        };
 
         const tween = gsap.fromTo(
           fill,
@@ -56,9 +91,16 @@ export function Method() {
               start: "top 70%",
               end: "bottom 60%",
               scrub: 0.4,
+              onRefresh: (self) => {
+                measure();
+                light(self.progress);
+              },
+              onUpdate: (self) => light(self.progress),
             },
           },
         );
+
+        measure();
 
         cleanup = () => {
           tween.scrollTrigger?.kill();
@@ -97,9 +139,15 @@ export function Method() {
         <ol className="grid gap-16 lg:gap-24">
           {method.steps.map((step, index) => (
             <Reveal as="li" key={step.title} className="relative">
+              {/* Hollow and grey until the line arrives, then filled solid
+                  orange. The steps behind you read differently from the ones
+                  ahead, so the rail reports progress through the method rather
+                  than only marking where the steps are. */}
               <span
+                data-step-marker
+                data-lit="false"
                 aria-hidden="true"
-                className="absolute -left-10 top-1 size-[15px] rounded-full border-2 border-orange bg-page lg:-left-16 lg:size-[23px]"
+                className="absolute -left-10 top-1 size-[15px] rounded-full border-2 border-line bg-page transition-[background-color,border-color,scale] duration-300 ease-[var(--ease-out-strong)] data-[lit=true]:scale-110 data-[lit=true]:border-orange data-[lit=true]:bg-orange lg:-left-16 lg:size-[23px]"
               />
               <div className="grid gap-8 lg:grid-cols-[1fr_320px] lg:items-start lg:gap-14">
                 <div>
