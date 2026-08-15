@@ -69,35 +69,35 @@ export default function PrivacyPage() {
     <>
       <Header />
       <main className="shell section pt-[calc(var(--header-h)+72px)]">
-        <h1 className="t-h1 text-white">Політика конфіденційності</h1>
+        <h1 className="t-h1 text-strong">Політика конфіденційності</h1>
 
         <div className="mt-10 max-w-[70ch] rounded-[var(--radius-card)] border border-orange/40 bg-orange/5 p-6">
-          <p className="t-eyebrow text-orange">Документ на погодженні</p>
-          <p className="t-body mt-4 text-chalk">
+          <p className="t-eyebrow text-accent-text">Документ на погодженні</p>
+          <p className="t-body mt-4 text-body">
             Текст політики готує юрист. Нижче — перелік пунктів, які має покривати
             документ, виходячи з того, що сайт справді збирає й куди передає.
           </p>
         </div>
 
-        <ol className="mt-14 border-t border-steel">
+        <ol className="mt-14 border-t border-line">
           {SECTIONS.map((section, index) => (
-            <li key={section.title} className="border-b border-steel py-8">
+            <li key={section.title} className="border-b border-line py-8">
               <div className="flex gap-6">
-                <span className="font-[family-name:var(--font-mono)] text-[13px] text-orange">
+                <span className="font-[family-name:var(--font-mono)] text-[13px] text-accent-text">
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <div>
-                  <h2 className="t-h3 text-white">{section.title}</h2>
-                  <p className="t-body mt-3 max-w-[62ch] text-muted">{section.note}</p>
+                  <h2 className="t-h3 text-strong">{section.title}</h2>
+                  <p className="t-body mt-3 max-w-[62ch] text-subtle">{section.note}</p>
                 </div>
               </div>
             </li>
           ))}
         </ol>
 
-        <p className="t-body mt-12 text-muted">
+        <p className="t-body mt-12 text-subtle">
           Умови покупки цифрового продукту —{" "}
-          <Link href="/offer" className="text-chalk underline underline-offset-4">
+          <Link href="/offer" className="text-body underline underline-offset-4">
             публічна оферта
           </Link>
           .

@@ -85,7 +85,7 @@ export function Method() {
         {/* The axis, and the orange fill that measures how far you have read. */}
         <div
           aria-hidden="true"
-          className="absolute bottom-0 left-[7px] top-2 w-px bg-steel lg:left-[11px]"
+          className="absolute bottom-0 left-[7px] top-2 w-px bg-line lg:left-[11px]"
         >
           <div
             ref={fillRef}
@@ -99,15 +99,15 @@ export function Method() {
             <Reveal as="li" key={step.title} className="relative">
               <span
                 aria-hidden="true"
-                className="absolute -left-10 top-1 size-[15px] rounded-full border-2 border-orange bg-ink lg:-left-16 lg:size-[23px]"
+                className="absolute -left-10 top-1 size-[15px] rounded-full border-2 border-orange bg-page lg:-left-16 lg:size-[23px]"
               />
               <div className="grid gap-8 lg:grid-cols-[1fr_320px] lg:items-start lg:gap-14">
                 <div>
-                  <p className="font-[family-name:var(--font-mono)] text-[13px] tracking-[0.12em] text-orange">
+                  <p className="font-[family-name:var(--font-mono)] text-[13px] tracking-[0.12em] text-accent-text">
                     {String(index + 1).padStart(2, "0")}
                   </p>
-                  <h3 className="t-h3 mt-4 text-white">{step.title}</h3>
-                  <p className="t-body mt-4 max-w-[52ch] text-muted">{step.body}</p>
+                  <h3 className="t-h3 mt-4 text-strong">{step.title}</h3>
+                  <p className="t-body mt-4 max-w-[52ch] text-subtle">{step.body}</p>
                 </div>
 
                 <Figure

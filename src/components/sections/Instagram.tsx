@@ -26,12 +26,12 @@ export function Instagram() {
       id="instagram"
       aria-labelledby="instagram-h"
       // Same scrollbar-width guard as the club gallery. See Club.tsx.
-      className="section overflow-x-clip bg-graphite"
+      className="section overflow-x-clip bg-raised"
     >
       <div className="shell">
         <Reveal>
           <p className="t-eyebrow">{instagram.eyebrow}</p>
-          <h2 id="instagram-h" className="t-h2 mt-5 text-white">
+          <h2 id="instagram-h" className="t-h2 mt-5 text-strong">
             {instagram.heading}
           </h2>
         </Reveal>

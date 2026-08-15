@@ -27,11 +27,11 @@ export default function NotFound() {
           <Logo variant="monogram" />
         </Link>
 
-        <p className="mt-12 font-[family-name:var(--font-mono)] text-[13px] tracking-[0.12em] text-orange">
+        <p className="mt-12 font-[family-name:var(--font-mono)] text-[13px] tracking-[0.12em] text-accent-text">
           404
         </p>
-        <h1 className="t-h1 mt-4 text-white">Такої сторінки нема</h1>
-        <p className="t-body-l mt-6 text-muted">
+        <h1 className="t-h1 mt-4 text-strong">Такої сторінки нема</h1>
+        <p className="t-body-l mt-6 text-subtle">
           Можливо, змінилось посилання. На головній є все.
         </p>
 

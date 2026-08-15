@@ -128,32 +128,38 @@ export function Hero() {
       {/* Scrim: the headline needs a guaranteed contrast floor over any photo. */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/20"
+        className="absolute inset-0 bg-gradient-to-t from-page via-page/70 to-page/20"
       />
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-r from-ink/80 via-transparent to-transparent"
+        className="absolute inset-0 bg-gradient-to-r from-page/80 via-transparent to-transparent"
       />
 
       {/* Bottom padding grows by the consent banner's height on mobile, so the
           CTA is never sitting underneath it on a first visit. */}
       <div className="shell relative z-10 flex flex-1 flex-col justify-end pb-[calc(48px+var(--consent-h))] pt-[calc(var(--header-h)+32px)] lg:pb-16">
-        <div className="grid-site items-end">
-          <div className="col-span-4 md:col-span-8 lg:col-span-7">
-            <h1 className="t-display text-white">
-              {hero.headlineLines.map((line) => (
-                <span key={line} className="block overflow-hidden pb-[0.06em]">
-                  {/* Trailing space keeps the accessible name readable: the
-                      lines are block-level, so it costs nothing visually but
-                      stops screen readers running the words together. */}
-                  <span data-hero-line className="block">
-                    {`${line} `}
-                  </span>
-                </span>
-              ))}
-            </h1>
+        {/*
+          The headline runs the full content width rather than sharing a row
+          with the action card. At seven of twelve columns the longest word had
+          728px to live in and needed 1220px, so the reveal mask was cropping
+          it. Full width plus the fluid size means the line always lands whole.
+        */}
+        <h1 className="t-display text-strong">
+          {hero.headlineLines.map((line) => (
+            <span key={line} className="block overflow-hidden pb-[0.06em]">
+              {/* Trailing space keeps the accessible name readable: the
+                  lines are block-level, so it costs nothing visually but
+                  stops screen readers running the words together. */}
+              <span data-hero-line className="block">
+                {`${line} `}
+              </span>
+            </span>
+          ))}
+        </h1>
 
-            <p data-hero-fade className="t-body-l mt-7 max-w-[38ch] text-chalk/85">
+        <div className="grid-site mt-10 items-end lg:mt-14">
+          <div className="col-span-4 md:col-span-8 lg:col-span-6">
+            <p data-hero-fade className="t-body-l max-w-[38ch] text-body">
               {hero.sub}
             </p>
 
@@ -168,7 +174,7 @@ export function Hero() {
               </div>
             </div>
 
-            <div data-hero-fade className="mt-10 hidden lg:block">
+            <div data-hero-fade className="mt-8 hidden lg:block">
               <Button variant="ghost" href={hero.secondary.href}>
                 {hero.secondary.label} →
               </Button>
@@ -179,12 +185,12 @@ export function Hero() {
             data-hero-fade
             className="hidden lg:col-span-4 lg:col-start-9 lg:block"
           >
-            <div className="rounded-[var(--radius-card)] border border-white/10 bg-surface/60 p-8 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.75)] backdrop-blur-md">
+            <div className="rounded-[var(--radius-card)] border border-line bg-card/60 p-8 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.75)] backdrop-blur-md">
               <p className="t-eyebrow">{hero.actionCard.title}</p>
-              <p className="mt-4 font-[family-name:var(--font-mono)] text-[15px] text-chalk">
+              <p className="mt-4 font-[family-name:var(--font-mono)] text-[15px] text-body">
                 {hero.actionCard.durationMin} хв
-                <span className="mx-2 text-muted">·</span>
-                <span className={cardPrice.startsWith("від") ? "" : "text-muted"}>
+                <span className="mx-2 text-subtle">·</span>
+                <span className={cardPrice.startsWith("від") ? "" : "text-subtle"}>
                   {cardPrice}
                 </span>
               </p>

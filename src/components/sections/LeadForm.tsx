@@ -184,17 +184,17 @@ export function LeadForm() {
   };
 
   return (
-    <section id="zapys" aria-labelledby="zapys-h" className="section bg-graphite">
+    <section id="zapys" aria-labelledby="zapys-h" className="section bg-raised">
       <div className="shell" ref={viewRef}>
         <div className="grid-site gap-y-12">
           <Reveal className="col-span-4 md:col-span-8 lg:col-span-5">
             <p className="t-eyebrow">{leadForm.eyebrow}</p>
-            <h2 id="zapys-h" className="t-h2 mt-5 text-white">
+            <h2 id="zapys-h" className="t-h2 mt-5 text-strong">
               {leadForm.heading}
             </h2>
 
             {brand.responseTime && (
-              <p className="t-body-l mt-8 max-w-[36ch] text-muted">
+              <p className="t-body-l mt-8 max-w-[36ch] text-subtle">
                 Відповім особисто в Telegram протягом {brand.responseTime}.
               </p>
             )}
@@ -205,11 +205,11 @@ export function LeadForm() {
                 <span
                   key={n}
                   className={`h-8 w-px transition-colors duration-300 ${
-                    n <= step ? "bg-orange" : "bg-steel"
+                    n <= step ? "bg-orange" : "bg-line"
                   } ${n === step ? "h-12" : ""}`}
                 />
               ))}
-              <span className="ml-4 font-[family-name:var(--font-mono)] text-[13px] text-muted">
+              <span className="ml-4 font-[family-name:var(--font-mono)] text-[13px] text-subtle">
                 крок {step} з 3
               </span>
             </div>
@@ -221,7 +221,7 @@ export function LeadForm() {
 
               {step === 1 && (
                 <fieldset>
-                  <legend className="t-h3 mb-8 text-white">З чим ти прийшла?</legend>
+                  <legend className="t-h3 mb-8 text-strong">З чим ти прийшла?</legend>
                   <div className="grid gap-3 md:grid-cols-2">
                     {leadForm.goals.map((option) => (
                       <button
@@ -230,8 +230,8 @@ export function LeadForm() {
                         onClick={() => chooseGoal(option.value)}
                         className={`min-h-[52px] rounded-[var(--radius-card)] border px-6 py-4 text-left transition-colors ${
                           goal === option.value
-                            ? "border-orange bg-orange/10 text-white"
-                            : "border-steel text-chalk hover:border-muted"
+                            ? "border-orange bg-orange/10 text-strong"
+                            : "border-line text-body hover:border-subtle"
                         }`}
                       >
                         {option.label}
@@ -243,7 +243,7 @@ export function LeadForm() {
 
               {step === 2 && (
                 <fieldset>
-                  <legend className="t-h3 mb-8 text-white">Який формат?</legend>
+                  <legend className="t-h3 mb-8 text-strong">Який формат?</legend>
                   <div className="grid gap-3 md:grid-cols-2">
                     {leadForm.formats.map((option) => (
                       <button
@@ -252,8 +252,8 @@ export function LeadForm() {
                         onClick={() => chooseFormat(option.value)}
                         className={`min-h-[52px] rounded-[var(--radius-card)] border px-6 py-4 text-left transition-colors ${
                           format === option.value
-                            ? "border-orange bg-orange/10 text-white"
-                            : "border-steel text-chalk hover:border-muted"
+                            ? "border-orange bg-orange/10 text-strong"
+                            : "border-line text-body hover:border-subtle"
                         }`}
                       >
                         {option.label}
@@ -263,7 +263,7 @@ export function LeadForm() {
                   <button
                     type="button"
                     onClick={() => setStep(1)}
-                    className="t-body mt-8 text-muted underline underline-offset-4 hover:text-chalk"
+                    className="t-body mt-8 text-subtle underline underline-offset-4 hover:text-body"
                   >
                     Назад
                   </button>
@@ -272,7 +272,7 @@ export function LeadForm() {
 
               {step === 3 && (
                 <fieldset className="grid gap-7">
-                  <legend className="t-h3 mb-8 text-white">Куди тобі відповісти?</legend>
+                  <legend className="t-h3 mb-8 text-strong">Куди тобі відповісти?</legend>
 
                   <Input
                     label="Як до тебе звертатись"
@@ -311,7 +311,7 @@ export function LeadForm() {
                     <button
                       type="button"
                       onClick={() => setNoteOpen(true)}
-                      className="t-body justify-self-start text-muted underline underline-offset-4 hover:text-chalk"
+                      className="t-body justify-self-start text-subtle underline underline-offset-4 hover:text-body"
                     >
                       Додати коментар
                     </button>
@@ -330,11 +330,11 @@ export function LeadForm() {
                         className="mt-1 size-5 shrink-0 accent-[var(--color-orange)]"
                         aria-describedby={errors.consent ? "consent-error" : undefined}
                       />
-                      <span className="t-body text-muted">
+                      <span className="t-body text-subtle">
                         Погоджуюсь на обробку моїх даних згідно з{" "}
                         <a
                           href="/privacy"
-                          className="text-chalk underline underline-offset-4"
+                          className="text-body underline underline-offset-4"
                         >
                           політикою конфіденційності
                         </a>
@@ -352,7 +352,7 @@ export function LeadForm() {
                       role="status"
                       className="rounded-[var(--radius-card)] border border-orange/50 bg-orange/10 p-5"
                     >
-                      <p className="t-body text-chalk">
+                      <p className="t-body text-body">
                         Це демонстраційна версія сайту — заявки тут не
                         надсилаються. Напиши мені в Instagram, і я відповім.
                       </p>
@@ -369,7 +369,7 @@ export function LeadForm() {
                       role="alert"
                       className="rounded-[var(--radius-card)] border border-error/50 bg-error/10 p-5"
                     >
-                      <p className="t-body text-chalk">
+                      <p className="t-body text-body">
                         Заявка не відправилась. Спробуй ще раз
                         {brand.telegramUrl ? " або напиши мені напряму." : "."}
                       </p>
@@ -400,7 +400,7 @@ export function LeadForm() {
                     <button
                       type="button"
                       onClick={() => setStep(2)}
-                      className="t-body text-muted underline underline-offset-4 hover:text-chalk"
+                      className="t-body text-subtle underline underline-offset-4 hover:text-body"
                     >
                       Назад
                     </button>

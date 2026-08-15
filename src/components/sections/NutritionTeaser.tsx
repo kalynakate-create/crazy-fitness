@@ -3,9 +3,12 @@
 /**
  * 07 NUTRITION TEASER — Opus 6.2 §07 / Stage 7.
  *
- * The one light section on the page. It marks the digital product as a
- * different kind of thing from the coaching above it, and the switch to `chalk`
+ * The one inverted band on the page. It marks the digital product as a
+ * different kind of thing from the coaching above it, and the switch of ground
  * does that work without a badge or a ribbon.
+ *
+ * It used to be the single light section on a dark page; now it is the single
+ * dark section on a light one. Same job, same single use, opposite polarity.
  *
  * The whole card is the link, not just the button: on a phone a large target
  * beats a precise one.
@@ -25,7 +28,7 @@ export function NutritionTeaser() {
     <section
       id="programa"
       aria-labelledby="programa-h"
-      className="section bg-chalk text-ink"
+      className="section bg-invert text-invert-body"
     >
       <div className="shell">
         <Reveal>
@@ -48,14 +51,14 @@ export function NutritionTeaser() {
             </div>
 
             <div>
-              <p className="t-eyebrow text-ink/60">{product.eyebrow}</p>
-              <h2 id="programa-h" className="t-h2 mt-5 text-ink">
+              <p className="t-eyebrow text-invert-subtle">{product.eyebrow}</p>
+              <h2 id="programa-h" className="t-h2 mt-5 text-invert-body">
                 {product.name}
               </h2>
 
               <ul className="mt-8 grid gap-3">
                 {product.benefits.map((benefit) => (
-                  <li key={benefit} className="t-body flex gap-4 text-ink/75">
+                  <li key={benefit} className="t-body flex gap-4 text-invert-body/85">
                     <span aria-hidden="true" className="mt-2.5 h-px w-5 shrink-0 bg-orange" />
                     {benefit}
                   </li>
@@ -63,10 +66,12 @@ export function NutritionTeaser() {
               </ul>
 
               <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
-                <span className="font-[family-name:var(--font-mono)] text-[15px] text-ink">
+                {/* Orange reaches 5.8:1 on this dark ground, so the accent can
+                    carry the price here even though it cannot on the light page. */}
+                <span className="font-[family-name:var(--font-mono)] text-[15px] text-orange">
                   {price}
                 </span>
-                <span className="t-button relative inline-flex items-center gap-2 text-ink">
+                <span className="t-button relative inline-flex items-center gap-2 text-invert-body">
                   Детальніше про програму
                   <span
                     aria-hidden="true"

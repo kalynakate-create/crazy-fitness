@@ -41,15 +41,15 @@ export default function ThankYouOrderPage() {
           <Logo variant="monogram" />
         </Link>
 
-        <h1 className="t-h1 mt-12 text-white">Оплата отримана</h1>
+        <h1 className="t-h1 mt-12 text-strong">Оплата отримана</h1>
 
-        <p className="t-body-l mt-8 text-muted">
+        <p className="t-body-l mt-8 text-subtle">
           {product.deliveryHours
             ? `Надішлю ${product.name.toLowerCase()} протягом ${product.deliveryHours} год на пошту, яку ти вказала, і продублюю в Telegram.`
             : `Надішлю ${product.name.toLowerCase()} на пошту, яку ти вказала, і продублюю в Telegram.`}
         </p>
 
-        <p className="t-body mt-6 text-muted">
+        <p className="t-body mt-6 text-subtle">
           Не прийшло? Напиши мені, розберемось.
         </p>
 

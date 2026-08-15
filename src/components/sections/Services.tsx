@@ -25,14 +25,14 @@ export function Services() {
     id: service.id,
     summary: (
       <span className="flex flex-col gap-3 md:flex-row md:items-baseline md:gap-8">
-        <span className="font-[family-name:var(--font-mono)] text-[13px] tracking-[0.12em] text-orange md:w-10">
+        <span className="font-[family-name:var(--font-mono)] text-[13px] tracking-[0.12em] text-accent-text md:w-10">
           {String(index + 1).padStart(2, "0")}
         </span>
         <span className="flex-1">
-          <span className="t-h3 block text-white">{service.name}</span>
-          <span className="t-body mt-1 block text-muted">{service.hook}</span>
+          <span className="t-h3 block text-strong">{service.name}</span>
+          <span className="t-body mt-1 block text-subtle">{service.hook}</span>
         </span>
-        <span className="font-[family-name:var(--font-mono)] text-[13px] text-chalk md:text-right">
+        <span className="font-[family-name:var(--font-mono)] text-[13px] text-body md:text-right">
           {priceLabel(service.priceFromAmount)}
         </span>
       </span>
@@ -42,22 +42,22 @@ export function Services() {
         <div>
           <ul className="grid gap-3">
             {service.includes.map((line) => (
-              <li key={line} className="t-body flex gap-4 text-chalk/85">
+              <li key={line} className="t-body flex gap-4 text-body/85">
                 <span aria-hidden="true" className="mt-2.5 h-px w-5 shrink-0 bg-orange" />
                 {line}
               </li>
             ))}
           </ul>
 
-          <dl className="mt-7 flex flex-wrap gap-x-10 gap-y-3 border-t border-steel pt-6 font-[family-name:var(--font-mono)] text-[13px]">
+          <dl className="mt-7 flex flex-wrap gap-x-10 gap-y-3 border-t border-line pt-6 font-[family-name:var(--font-mono)] text-[13px]">
             <div className="flex gap-3">
-              <dt className="text-muted">Кому:</dt>
-              <dd className="max-w-[42ch] text-chalk">{service.forWhom}</dd>
+              <dt className="text-subtle">Кому:</dt>
+              <dd className="max-w-[42ch] text-body">{service.forWhom}</dd>
             </div>
             {service.duration && (
               <div className="flex gap-3">
-                <dt className="text-muted">Тривалість:</dt>
-                <dd className="text-chalk">{service.duration}</dd>
+                <dt className="text-subtle">Тривалість:</dt>
+                <dd className="text-body">{service.duration}</dd>
               </div>
             )}
           </dl>

@@ -33,14 +33,14 @@ export function Accordion({ items, onOpen, className = "" }: AccordionProps) {
   const baseId = useId();
 
   return (
-    <div className={`border-t border-steel ${className}`}>
+    <div className={`border-t border-line ${className}`}>
       {items.map((item) => {
         const open = openId === item.id;
         const panelId = `${baseId}-${item.id}-panel`;
         const buttonId = `${baseId}-${item.id}-button`;
 
         return (
-          <div key={item.id} className="border-b border-steel">
+          <div key={item.id} className="border-b border-line">
             <h3>
               <button
                 id={buttonId}
@@ -52,12 +52,12 @@ export function Accordion({ items, onOpen, className = "" }: AccordionProps) {
                   setOpenId(next);
                   if (next) onOpen?.(item.id);
                 }}
-                className="group flex w-full items-center gap-6 py-7 text-left transition-colors hover:bg-graphite/50 md:px-2"
+                className="group flex w-full items-center gap-6 py-7 text-left transition-colors hover:bg-raised/50 md:px-2"
               >
                 <span className="flex-1">{item.summary}</span>
                 <span
                   aria-hidden="true"
-                  className="relative size-4 shrink-0 text-orange transition-transform duration-300 group-hover:translate-x-1"
+                  className="relative size-4 shrink-0 text-accent-text transition-transform duration-300 group-hover:translate-x-1"
                 >
                   <span className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-current" />
                   <span

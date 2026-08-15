@@ -46,42 +46,42 @@ export default function OfferPage() {
     <>
       <Header />
       <main className="shell section pt-[calc(var(--header-h)+72px)]">
-        <h1 className="t-h1 text-white">Публічна оферта</h1>
+        <h1 className="t-h1 text-strong">Публічна оферта</h1>
 
         <div className="mt-10 max-w-[70ch] rounded-[var(--radius-card)] border border-orange/40 bg-orange/5 p-6">
-          <p className="t-eyebrow text-orange">Документ на погодженні</p>
-          <p className="t-body mt-4 text-chalk">
+          <p className="t-eyebrow text-accent-text">Документ на погодженні</p>
+          <p className="t-body mt-4 text-body">
             Текст оферти готує юрист. Нижче — структура з переліком того, що має
             бути врегульовано до першого продажу.
           </p>
         </div>
 
-        <ol className="mt-14 border-t border-steel">
+        <ol className="mt-14 border-t border-line">
           {SECTIONS.map((section, index) => (
-            <li key={section.title} className="border-b border-steel py-8">
+            <li key={section.title} className="border-b border-line py-8">
               <div className="flex gap-6">
-                <span className="font-[family-name:var(--font-mono)] text-[13px] text-orange">
+                <span className="font-[family-name:var(--font-mono)] text-[13px] text-accent-text">
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <div>
-                  <h2 className="t-h3 text-white">{section.title}</h2>
-                  <p className="t-body mt-3 max-w-[62ch] text-muted">{section.note}</p>
+                  <h2 className="t-h3 text-strong">{section.title}</h2>
+                  <p className="t-body mt-3 max-w-[62ch] text-subtle">{section.note}</p>
                 </div>
               </div>
             </li>
           ))}
         </ol>
 
-        <section className="mt-16 border-t border-steel pt-12">
-          <h2 className="t-h3 text-white">Застереження щодо здоров'я</h2>
-          <p className="t-body-l mt-5 max-w-[65ch] text-muted">
+        <section className="mt-16 border-t border-line pt-12">
+          <h2 className="t-h3 text-strong">Застереження щодо здоров'я</h2>
+          <p className="t-body-l mt-5 max-w-[65ch] text-subtle">
             {programPage.healthDisclaimer}
           </p>
         </section>
 
-        <p className="t-body mt-12 text-muted">
+        <p className="t-body mt-12 text-subtle">
           Обробка персональних даних —{" "}
-          <Link href="/privacy" className="text-chalk underline underline-offset-4">
+          <Link href="/privacy" className="text-body underline underline-offset-4">
             політика конфіденційності
           </Link>
           .

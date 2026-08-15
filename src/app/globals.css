@@ -11,17 +11,48 @@
   --breakpoint-md: 768px;
   --breakpoint-lg: 1200px;
 
-  /* --- Colour, Stage 12.1 ---------------------------------------------- */
-  --color-ink: #0b0b0c;
-  --color-graphite: #151619;
-  --color-surface: #1c1e22;
-  --color-steel: #2a2c33;
-  --color-chalk: #f2f1ed;
-  --color-muted: #8a8d94;
+  /* --- Colour ------------------------------------------------------------
+     Light composition, built from the Stage 12.1 palette rather than a new
+     one: the same chalk, ink and orange, with light carrying the page and ink
+     reduced to type and one contrast band.
+
+     Two values had to move, because the dark-background versions do not carry
+     on a light ground:
+       · muted #8A8D94 measured 2.9:1 on chalk, so secondary text is darker
+       · orange #F15A28 measures 3.0:1 on chalk, which fails for body text, so
+         accent TEXT uses the deep orange while orange stays for fills, where
+         near-black type on it reaches 5.8:1
+     Every value below was verified by compositing, not by eye.
+     ---------------------------------------------------------------------- */
+
+  /* Surfaces, lightest to darkest */
+  --color-card: #ffffff;
+  --color-page: #f2f1ed;
+  --color-raised: #eae8e1;
+  --color-line: #d9d6cd;
+
+  /* Type */
+  --color-strong: #0b0b0c;
+  --color-body: #23262b;
+  /* Tuned against `raised`, not `page`: secondary text has to clear 4.5:1 on
+     the darkest of the light surfaces, and #6A6D74 reached only 4.23 there. */
+  --color-subtle: #63666d;
+
+  /* The single inverted band, so the digital product reads as a different
+     kind of thing without needing a badge. */
+  --color-invert: #14161a;
+  --color-invert-body: #f2f1ed;
+  --color-invert-subtle: #9b9ea5;
+  --color-invert-line: #2f323a;
+
+  /* Accent: fills use orange, text uses the deep orange. */
   --color-orange: #f15a28;
   --color-orange-hover: #c63e0b;
-  --color-success: #3fb27f;
-  --color-error: #e5484d;
+  --color-accent-text: #c63e0b;
+  --color-on-accent: #0b0b0c;
+
+  --color-success: #1e7a54;
+  --color-error: #c0272d;
 
   /* --- Type, Stage 12.2. Families are injected by next/font in layout --- */
   --font-display: var(--font-unbounded), "Segoe UI", system-ui, sans-serif;
@@ -46,7 +77,7 @@
    ========================================================================= */
 @layer base {
   :root {
-    color-scheme: dark;
+    color-scheme: light;
     --header-h: 64px;
     /* Set by CookieBanner while it is open, so nothing that matters ends up
        underneath it. See the comment in CookieBanner.tsx. */
@@ -65,8 +96,8 @@
   }
 
   body {
-    background-color: var(--color-ink);
-    color: var(--color-chalk);
+    background-color: var(--color-page);
+    color: var(--color-body);
     font-family: var(--font-sans);
     font-size: 16px;
     line-height: 1.6;
@@ -91,12 +122,12 @@
 
   ::selection {
     background: var(--color-orange);
-    color: var(--color-ink);
+    color: var(--color-on-accent);
   }
 
   /* Keyboard users never see hover, so focus is designed separately. */
   :focus-visible {
-    outline: 2px solid var(--color-orange);
+    outline: 2px solid var(--color-accent-text);
     outline-offset: 3px;
     border-radius: 2px;
   }
@@ -180,11 +211,24 @@
   /* ==========================================================================
      TYPE SCALE — Stage 12.2, one class per row of that table.
      ======================================================================= */
+  /**
+   * Fluid, not the fixed 120 / 72 / 44 of the Stage 12.2 table.
+   *
+   * That scale was written without measuring it against Ukrainian. Set in
+   * Unbounded ExtraBold, "ЗАЛИШАЄТЬСЯ" is 10.2em wide: at 120px that is 1220px
+   * of text in a 728px column, and the overflow-hidden the reveal animation
+   * needs was silently cropping it. The headline was losing its last word at
+   * every width, mobile included.
+   *
+   * 8.2vw keeps the longest word inside the content column from 320px up, and
+   * the 104px cap stops it growing unreadably on wide screens. Changing the
+   * headline to something longer means re-checking this number.
+   */
   .t-display {
     font-family: var(--font-display);
     font-weight: 800;
-    font-size: 44px;
-    line-height: 0.9;
+    font-size: clamp(26px, 8.2vw, 104px);
+    line-height: 0.92;
     letter-spacing: -0.03em;
     text-transform: uppercase;
   }
@@ -229,7 +273,7 @@
     line-height: 1.4;
     text-transform: uppercase;
     letter-spacing: 0.12em;
-    color: var(--color-muted);
+    color: var(--color-subtle);
   }
 
   .t-button {
@@ -241,9 +285,8 @@
   }
 
   @media (min-width: 768px) {
-    .t-display {
-      font-size: 72px;
-    }
+    /* .t-display is fluid and deliberately has no per-breakpoint override:
+       a fixed size here would reintroduce the cropping it exists to prevent. */
     .t-h1 {
       font-size: 52px;
     }
@@ -265,9 +308,6 @@
   }
 
   @media (min-width: 1200px) {
-    .t-display {
-      font-size: 120px;
-    }
     .t-h1 {
       font-size: 72px;
     }
@@ -291,7 +331,7 @@
      one motif allowed to repeat, and it only ever marks something real.
      ======================================================================= */
   .scale-rule {
-    --tick: var(--color-steel);
+    --tick: var(--color-line);
     height: 14px;
     width: 100%;
     background-image: repeating-linear-gradient(
@@ -302,11 +342,11 @@
     background-position: left bottom;
     background-repeat: repeat-x;
     background-size: 12px 6px;
-    border-bottom: 1px solid var(--color-steel);
+    border-bottom: 1px solid var(--color-line);
   }
 
   .scale-rule-v {
-    --tick: var(--color-steel);
+    --tick: var(--color-line);
     width: 14px;
     background-image: repeating-linear-gradient(
       to bottom,
@@ -316,7 +356,7 @@
     background-position: right top;
     background-repeat: repeat-y;
     background-size: 6px 12px;
-    border-right: 1px solid var(--color-steel);
+    border-right: 1px solid var(--color-line);
   }
 
   /* ==========================================================================

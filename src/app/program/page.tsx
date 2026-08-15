@@ -37,16 +37,16 @@ export default function ProgramPage() {
           <div className="grid-site items-center gap-y-12">
             <Reveal className="col-span-4 md:col-span-8 lg:col-span-6">
               <p className="t-eyebrow">{product.eyebrow}</p>
-              <h1 className="t-h1 mt-5 text-white">{product.name}</h1>
+              <h1 className="t-h1 mt-5 text-strong">{product.name}</h1>
               <ul className="mt-10 grid gap-3">
                 {product.benefits.map((benefit) => (
-                  <li key={benefit} className="t-body-l flex gap-4 text-chalk/85">
+                  <li key={benefit} className="t-body-l flex gap-4 text-body/85">
                     <span aria-hidden="true" className="mt-3 h-px w-5 shrink-0 bg-orange" />
                     {benefit}
                   </li>
                 ))}
               </ul>
-              <p className="mt-10 font-[family-name:var(--font-mono)] text-[17px] text-orange">
+              <p className="mt-10 font-[family-name:var(--font-mono)] text-[17px] text-accent-text">
                 {priceLabel(product.priceAmount, "")}
               </p>
             </Reveal>
@@ -67,9 +67,9 @@ export default function ProgramPage() {
 
         {/* 2. What it actually is */}
         {programPage.what.body && (
-          <section className="section shell border-t border-steel">
+          <section className="section shell border-t border-line">
             <SectionHeader heading={programPage.what.heading} />
-            <p className="t-body-l mt-8 max-w-[65ch] text-muted">
+            <p className="t-body-l mt-8 max-w-[65ch] text-subtle">
               {programPage.what.body}
             </p>
           </section>
@@ -77,11 +77,11 @@ export default function ProgramPage() {
 
         {/* 3. What is included */}
         {programPage.includes && programPage.includes.length > 0 && (
-          <section className="section shell border-t border-steel">
+          <section className="section shell border-t border-line">
             <SectionHeader eyebrow="ЗМІСТ" heading="Що входить" />
-            <ul className="mt-12 grid gap-px border-y border-steel bg-steel md:grid-cols-2">
+            <ul className="mt-12 grid gap-px border-y border-line bg-line md:grid-cols-2">
               {programPage.includes.map((item) => (
-                <li key={item} className="t-body bg-ink p-7 text-chalk">
+                <li key={item} className="t-body bg-page p-7 text-body">
                   {item}
                 </li>
               ))}
@@ -90,14 +90,14 @@ export default function ProgramPage() {
         )}
 
         {/* 4. Who it suits, and who it does not */}
-        <section className="section shell border-t border-steel">
+        <section className="section shell border-t border-line">
           <SectionHeader eyebrow="ЧЕСНО" heading="Кому підходить, а кому ні" />
           <div className="mt-12 grid gap-12 md:grid-cols-2 md:gap-16">
             <div>
               <p className="t-eyebrow mb-6 text-success">Підходить</p>
               <ul className="grid gap-4">
                 {programPage.suits.map((item) => (
-                  <li key={item} className="t-body flex gap-4 text-chalk">
+                  <li key={item} className="t-body flex gap-4 text-body">
                     <span aria-hidden="true" className="mt-2.5 h-px w-5 shrink-0 bg-success" />
                     {item}
                   </li>
@@ -105,11 +105,11 @@ export default function ProgramPage() {
               </ul>
             </div>
             <div>
-              <p className="t-eyebrow mb-6 text-muted">Не підходить</p>
+              <p className="t-eyebrow mb-6 text-subtle">Не підходить</p>
               <ul className="grid gap-4">
                 {programPage.notSuits.map((item) => (
-                  <li key={item} className="t-body flex gap-4 text-muted">
-                    <span aria-hidden="true" className="mt-2.5 h-px w-5 shrink-0 bg-steel" />
+                  <li key={item} className="t-body flex gap-4 text-subtle">
+                    <span aria-hidden="true" className="mt-2.5 h-px w-5 shrink-0 bg-line" />
                     {item}
                   </li>
                 ))}
@@ -120,7 +120,7 @@ export default function ProgramPage() {
 
         {/* 5. Real spreads. Never a mocked-up screenshot. */}
         {programPage.spreads.length > 0 && (
-          <section className="section border-t border-steel">
+          <section className="section border-t border-line">
             <div className="shell">
               <SectionHeader eyebrow="ЗСЕРЕДИНИ" heading="Як це виглядає" />
             </div>
@@ -140,7 +140,7 @@ export default function ProgramPage() {
         )}
 
         {/* 6. How it works + inline checkout */}
-        <section id="kupyty" className="section border-t border-steel bg-graphite">
+        <section id="kupyty" className="section border-t border-line bg-raised">
           <div className="shell">
             <div className="grid-site gap-y-14">
               <div className="col-span-4 md:col-span-8 lg:col-span-5">
@@ -148,15 +148,15 @@ export default function ProgramPage() {
                 <ol className="mt-10 grid gap-6">
                   {programPage.how.map((step, index) => (
                     <li key={step} className="flex gap-5">
-                      <span className="font-[family-name:var(--font-mono)] text-[13px] text-orange">
+                      <span className="font-[family-name:var(--font-mono)] text-[13px] text-accent-text">
                         {String(index + 1).padStart(2, "0")}
                       </span>
-                      <span className="t-body text-chalk/85">{step}</span>
+                      <span className="t-body text-body/85">{step}</span>
                     </li>
                   ))}
                 </ol>
 
-                <p className="t-body mt-12 max-w-[52ch] border-t border-steel pt-8 text-muted">
+                <p className="t-body mt-12 max-w-[52ch] border-t border-line pt-8 text-subtle">
                   {programPage.healthDisclaimer}
                 </p>
               </div>

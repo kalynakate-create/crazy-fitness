@@ -31,9 +31,9 @@ export default function ThankYouPage() {
           <Logo variant="monogram" />
         </Link>
 
-        <h1 className="t-h1 mt-12 text-white">Заявку прийнято</h1>
+        <h1 className="t-h1 mt-12 text-strong">Заявку прийнято</h1>
 
-        <p className="t-body-l mt-8 text-muted">
+        <p className="t-body-l mt-8 text-subtle">
           {brand.responseTime
             ? `Відповім особисто протягом ${brand.responseTime}.`
             : "Відповім особисто, щойно побачу заявку."}{" "}

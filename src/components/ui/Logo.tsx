@@ -23,7 +23,7 @@ export function Logo({ variant = "monogram", className = "" }: LogoProps) {
   if (variant === "monogram") {
     return (
       <span
-        className={`font-[family-name:var(--font-display)] text-[22px] font-extrabold leading-none tracking-[-0.04em] text-chalk ${className}`}
+        className={`font-[family-name:var(--font-display)] text-[22px] font-extrabold leading-none tracking-[-0.04em] text-body ${className}`}
         aria-hidden="true"
       >
         CF
@@ -33,10 +33,10 @@ export function Logo({ variant = "monogram", className = "" }: LogoProps) {
 
   return (
     <span className={`inline-flex flex-col gap-1 ${className}`} aria-hidden="true">
-      <span className="font-[family-name:var(--font-display)] text-[clamp(28px,6vw,56px)] font-extrabold uppercase leading-[0.9] tracking-[-0.03em] text-chalk">
-        Crazy <span className="text-orange">Fitness</span>
+      <span className="font-[family-name:var(--font-display)] text-[clamp(28px,6vw,56px)] font-extrabold uppercase leading-[0.9] tracking-[-0.03em] text-body">
+        Crazy <span className="text-accent-text">Fitness</span>
       </span>
-      <span className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.35em] text-muted">
+      <span className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.35em] text-subtle">
         by Anastasia
       </span>
     </span>

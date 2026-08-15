@@ -46,8 +46,8 @@ export function CheckoutForm() {
   if (IS_STATIC_DEMO) {
     return (
       <div className="rounded-[var(--radius-card)] border border-orange/50 bg-orange/10 p-8">
-        <p className="t-eyebrow text-orange">Демонстраційна версія</p>
-        <p className="t-body mt-4 max-w-[46ch] text-chalk">
+        <p className="t-eyebrow text-accent-text">Демонстраційна версія</p>
+        <p className="t-body mt-4 max-w-[46ch] text-body">
           Це прев'ю дизайну — оплата тут не працює. Щоб придбати програму,
           напиши мені в Instagram.
         </p>
@@ -62,11 +62,11 @@ export function CheckoutForm() {
 
   if (!product.active || price === null) {
     return (
-      <div className="rounded-[var(--radius-card)] border border-steel p-8">
-        <p className="t-eyebrow text-orange">
+      <div className="rounded-[var(--radius-card)] border border-line p-8">
+        <p className="t-eyebrow text-accent-text">
           {product.active ? "Ціна ще не підтверджена" : "Тимчасово недоступно"}
         </p>
-        <p className="t-body mt-4 max-w-[46ch] text-muted">
+        <p className="t-body mt-4 max-w-[46ch] text-subtle">
           Купівля відкриється, щойно буде підтверджена вартість програми.
           Напиши мені, і я повідомлю, коли вона запрацює.
         </p>
@@ -118,9 +118,9 @@ export function CheckoutForm() {
     <form onSubmit={submit} noValidate className="grid gap-7">
       <Honeypot />
 
-      <div className="flex items-baseline justify-between gap-6 border-b border-steel pb-5">
-        <span className="t-h3 text-white">{product.name}</span>
-        <span className="font-[family-name:var(--font-mono)] text-[17px] text-orange">
+      <div className="flex items-baseline justify-between gap-6 border-b border-line pb-5">
+        <span className="t-h3 text-strong">{product.name}</span>
+        <span className="font-[family-name:var(--font-mono)] text-[17px] text-accent-text">
           {price}
         </span>
       </div>
@@ -165,13 +165,13 @@ export function CheckoutForm() {
             onChange={(e) => setConsent(e.target.checked)}
             className="mt-1 size-5 shrink-0 accent-[var(--color-orange)]"
           />
-          <span className="t-body text-muted">
+          <span className="t-body text-subtle">
             Погоджуюсь з{" "}
-            <a href="/offer" className="text-chalk underline underline-offset-4">
+            <a href="/offer" className="text-body underline underline-offset-4">
               умовами покупки
             </a>{" "}
             та{" "}
-            <a href="/privacy" className="text-chalk underline underline-offset-4">
+            <a href="/privacy" className="text-body underline underline-offset-4">
               політикою конфіденційності
             </a>
           </span>

@@ -46,7 +46,7 @@ function Plate({
   const fill = ratio === "fill";
   return (
     <div
-      className={`overflow-hidden bg-graphite ${
+      className={`overflow-hidden bg-raised ${
         fill ? "absolute inset-0" : "relative"
       } ${className ?? ""}`}
       style={fill ? undefined : { aspectRatio: ratio }}
@@ -55,7 +55,7 @@ function Plate({
         <div className="scale-rule opacity-40" />
       </div>
       {note && (
-        <span className="t-eyebrow absolute left-6 top-6 max-w-[80%] text-muted">
+        <span className="t-eyebrow absolute left-6 top-6 max-w-[80%] text-subtle">
           {note}
         </span>
       )}
@@ -87,7 +87,7 @@ export function Figure({
   const fill = ratio === "fill";
   return (
     <div
-      className={`overflow-hidden bg-graphite ${
+      className={`overflow-hidden bg-raised ${
         fill ? "absolute inset-0" : "relative"
       } ${className}`}
       style={fill ? undefined : { aspectRatio: ratio }}

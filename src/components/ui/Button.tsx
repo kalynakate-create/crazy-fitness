@@ -32,21 +32,21 @@ const SIZE = "min-h-[52px] px-7 py-3";
 
 const VARIANT: Record<Variant, string> = {
   primary:
-    "bg-orange text-ink hover:bg-orange-hover " +
-    "disabled:bg-steel disabled:text-muted",
+    "bg-orange text-on-accent hover:bg-orange-hover " +
+    "disabled:bg-line disabled:text-subtle",
   secondary:
-    "border border-steel text-chalk hover:border-orange " +
-    "disabled:border-steel disabled:text-muted",
+    "border border-line text-body hover:border-orange " +
+    "disabled:border-line disabled:text-subtle",
   // The ghost variant has to read as a text link, so it cannot be padded out
   // to 44px without losing its underline. Instead an invisible ::before
   // extends the hit area vertically: identical visually, thumb-sized in fact.
   ghost:
-    "px-0 min-h-0 py-1 text-chalk hover:text-orange " +
+    "px-0 min-h-0 py-1 text-body hover:text-accent-text " +
     "before:absolute before:inset-x-0 before:-top-3 before:-bottom-3 before:content-[''] " +
     "after:absolute after:left-0 after:-bottom-0.5 after:h-px after:w-full " +
     "after:origin-left after:scale-x-0 after:bg-orange " +
     "after:transition-transform after:duration-300 " +
-    "hover:after:scale-x-100 disabled:text-muted",
+    "hover:after:scale-x-100 disabled:text-subtle",
 };
 
 type CommonProps = {

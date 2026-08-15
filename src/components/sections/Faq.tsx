@@ -29,9 +29,9 @@ export function Faq() {
 
   const items: AccordionItem[] = answered.map((item) => ({
     id: item.id,
-    summary: <span className="t-h3 text-white">{item.question}</span>,
+    summary: <span className="t-h3 text-strong">{item.question}</span>,
     content: (
-      <p className="t-body max-w-[62ch] text-muted md:pr-16">{item.answer}</p>
+      <p className="t-body max-w-[62ch] text-subtle md:pr-16">{item.answer}</p>
     ),
   }));
 
@@ -51,7 +51,7 @@ export function Faq() {
 
       {brand.telegramUrl && (
         <Reveal className="mt-12">
-          <p className="t-body text-muted">
+          <p className="t-body text-subtle">
             Не знайшла відповідь?{" "}
             <Button
               variant="ghost"

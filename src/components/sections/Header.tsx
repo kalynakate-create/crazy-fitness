@@ -57,7 +57,7 @@ export function Header() {
     <header
       className={`fixed inset-x-0 top-0 z-40 transition-colors duration-300 ${
         scrolled || menuOpen
-          ? "border-b border-steel bg-ink/95 backdrop-blur"
+          ? "border-b border-line bg-page/95 backdrop-blur"
           : "border-b border-transparent bg-transparent"
       }`}
     >
@@ -78,7 +78,7 @@ export function Header() {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="t-body text-muted transition-colors hover:text-chalk"
+                  className="t-body text-subtle transition-colors hover:text-body"
                 >
                   {item.label}
                 </Link>
@@ -101,12 +101,12 @@ export function Header() {
         >
           <span aria-hidden="true" className="relative block h-3 w-6">
             <span
-              className={`absolute left-0 block h-px w-full bg-chalk transition-transform duration-300 ${
+              className={`absolute left-0 block h-px w-full bg-body transition-transform duration-300 ${
                 menuOpen ? "top-1.5 rotate-45" : "top-0"
               }`}
             />
             <span
-              className={`absolute left-0 block h-px w-full bg-chalk transition-transform duration-300 ${
+              className={`absolute left-0 block h-px w-full bg-body transition-transform duration-300 ${
                 menuOpen ? "top-1.5 -rotate-45" : "top-3"
               }`}
             />
@@ -117,7 +117,7 @@ export function Header() {
       <div
         id="mobile-menu"
         hidden={!menuOpen}
-        className="border-t border-steel bg-ink lg:hidden"
+        className="border-t border-line bg-page lg:hidden"
       >
         <nav aria-label="Мобільне меню" className="shell py-8">
           <ul className="grid gap-2">
@@ -126,7 +126,7 @@ export function Header() {
                 <Link
                   href={item.href}
                   onClick={() => setMenuOpen(false)}
-                  className="t-h3 block py-3 text-chalk"
+                  className="t-h3 block py-3 text-body"
                 >
                   {item.label}
                 </Link>

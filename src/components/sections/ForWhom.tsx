@@ -25,15 +25,15 @@ export function ForWhom() {
     >
       <Reveal>
         <p className="t-eyebrow">{forWhom.eyebrow}</p>
-        <h2 id="dlya-kogo-h" className="t-h1 mt-5 max-w-[16ch] text-white">
+        <h2 id="dlya-kogo-h" className="t-h1 mt-5 max-w-[16ch] text-strong">
           {forWhom.heading}
         </h2>
       </Reveal>
 
-      <ul className="mt-14 border-t border-steel lg:mt-20">
+      <ul className="mt-14 border-t border-line lg:mt-20">
         {forWhom.states.map((state, index) => (
           <Reveal as="li" key={state} delay={index * 70}>
-            <p className="t-h3 border-b border-steel py-8 text-chalk lg:py-10">
+            <p className="t-h3 border-b border-line py-8 text-body lg:py-10">
               {state}
             </p>
           </Reveal>

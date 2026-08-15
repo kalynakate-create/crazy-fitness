@@ -28,7 +28,7 @@ export function About() {
     <section
       id="pro"
       aria-labelledby="pro-h"
-      className="section bg-graphite"
+      className="section bg-raised"
     >
       <div className="shell">
         <div className="grid-site items-center gap-y-12">
@@ -48,20 +48,20 @@ export function About() {
             className="col-span-4 md:col-span-4 lg:col-span-5 lg:col-start-8"
           >
             <p className="t-eyebrow">{about.eyebrow}</p>
-            <h2 id="pro-h" className="t-h1 mt-5 text-white">
+            <h2 id="pro-h" className="t-h1 mt-5 text-strong">
               {displayName}
             </h2>
 
             {about.story && (
-              <p className="t-body-l mt-8 max-w-[52ch] text-chalk/85">
+              <p className="t-body-l mt-8 max-w-[52ch] text-body/85">
                 {about.story}
               </p>
             )}
 
             {about.credentials && about.credentials.length > 0 && (
-              <ul className="mt-8 grid gap-3 border-t border-steel pt-8">
+              <ul className="mt-8 grid gap-3 border-t border-line pt-8">
                 {about.credentials.map((item) => (
-                  <li key={item} className="t-body flex gap-4 text-muted">
+                  <li key={item} className="t-body flex gap-4 text-subtle">
                     <span aria-hidden="true" className="mt-2.5 h-px w-5 shrink-0 bg-orange" />
                     {item}
                   </li>

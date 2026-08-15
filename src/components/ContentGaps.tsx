@@ -95,17 +95,17 @@ export function ContentGaps() {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="ml-auto flex items-center gap-2 rounded-[var(--radius-card)] border border-orange bg-ink px-4 py-2 text-orange"
+        className="ml-auto flex items-center gap-2 rounded-[var(--radius-card)] border border-orange bg-page px-4 py-2 text-accent-text"
       >
         {gaps.length} полів чекають на клієнтку
       </button>
 
       {open && (
-        <ul className="mt-2 max-h-[60vh] overflow-y-auto rounded-[var(--radius-card)] border border-steel bg-surface p-4">
+        <ul className="mt-2 max-h-[60vh] overflow-y-auto rounded-[var(--radius-card)] border border-line bg-card p-4">
           {gaps.map((gap) => (
-            <li key={gap.label} className="border-b border-steel py-3 last:border-0">
-              <p className="text-chalk">{gap.label}</p>
-              <p className="mt-1 text-muted">{gap.blocks}</p>
+            <li key={gap.label} className="border-b border-line py-3 last:border-0">
+              <p className="text-body">{gap.label}</p>
+              <p className="mt-1 text-subtle">{gap.blocks}</p>
             </li>
           ))}
         </ul>

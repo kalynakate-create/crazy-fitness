@@ -70,30 +70,30 @@ export function CookieBanner() {
       ref={ref}
       role="dialog"
       aria-label="Згода на аналітику"
-      className="fixed inset-x-0 bottom-0 z-50 border-t border-steel bg-surface p-5 lg:bottom-6 lg:left-6 lg:right-auto lg:max-w-[420px] lg:rounded-[var(--radius-card)] lg:border"
+      className="fixed inset-x-0 bottom-0 z-50 border-t border-line bg-card p-5 lg:bottom-6 lg:left-6 lg:right-auto lg:max-w-[420px] lg:rounded-[var(--radius-card)] lg:border"
       style={{ paddingBottom: "calc(1.25rem + env(safe-area-inset-bottom))" }}
     >
-      <p className="t-body text-chalk">
+      <p className="t-body text-body">
         Використовуємо аналітику, щоб покращувати сайт.
       </p>
       <div className="mt-5 flex flex-wrap items-center gap-3">
         <button
           type="button"
           onClick={() => decide("granted")}
-          className="t-button min-h-[44px] rounded-[var(--radius-card)] bg-orange px-6 text-ink transition-colors hover:bg-orange-hover"
+          className="t-button min-h-[44px] rounded-[var(--radius-card)] bg-orange px-6 text-on-accent transition-colors hover:bg-orange-hover"
         >
           Прийняти
         </button>
         <button
           type="button"
           onClick={() => decide("denied")}
-          className="t-button min-h-[44px] rounded-[var(--radius-card)] border border-steel px-6 text-chalk transition-colors hover:border-muted"
+          className="t-button min-h-[44px] rounded-[var(--radius-card)] border border-line px-6 text-body transition-colors hover:border-subtle"
         >
           Відхилити
         </button>
         <Link
           href="/privacy"
-          className="t-body text-muted underline underline-offset-4 hover:text-chalk"
+          className="t-body text-subtle underline underline-offset-4 hover:text-body"
         >
           Детальніше
         </Link>

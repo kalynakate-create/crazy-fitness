@@ -30,11 +30,11 @@ export function SectionHeader({
   return (
     <Reveal className={className}>
       {eyebrow && <p className="t-eyebrow mb-4">{eyebrow}</p>}
-      <h2 id={headingId} className="t-h2 text-white">
+      <h2 id={headingId} className="t-h2 text-strong">
         {heading}
       </h2>
       {description && (
-        <p className="t-body-l mt-6 max-w-[65ch] text-muted">{description}</p>
+        <p className="t-body-l mt-6 max-w-[65ch] text-subtle">{description}</p>
       )}
     </Reveal>
   );

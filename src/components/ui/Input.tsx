@@ -28,7 +28,7 @@ type TextareaProps = SharedProps &
 
 const FIELD =
   "peer w-full appearance-none border-0 border-b bg-transparent pb-3 pt-6 " +
-  "text-chalk outline-none transition-colors placeholder:text-transparent " +
+  "text-body outline-none transition-colors placeholder:text-transparent " +
   "focus:border-b-2 focus:pb-[11px]";
 
 /**
@@ -50,10 +50,10 @@ const FIELD =
  * of gliding. Both are still composited, so the cost is the same.
  */
 const LABEL =
-  "pointer-events-none absolute left-0 top-6 origin-top-left text-muted " +
+  "pointer-events-none absolute left-0 top-6 origin-top-left text-subtle " +
   "tracking-[0.06em] " +
   "transition-[translate,scale,color] duration-200 ease-[var(--ease-out-strong)] " +
-  "peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-orange " +
+  "peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-accent-text " +
   "peer-[:not(:placeholder-shown)]:-translate-y-6 " +
   "peer-[:not(:placeholder-shown)]:scale-75";
 
@@ -74,14 +74,14 @@ export function Input({ label, error, hint, ...rest }: InputProps) {
           undefined
         }
         className={`${FIELD} ${
-          error ? "border-error focus:border-error" : "border-steel focus:border-orange"
+          error ? "border-error focus:border-error" : "border-line focus:border-orange"
         }`}
       />
       <label htmlFor={id} className={`${LABEL} font-[family-name:var(--font-mono)]`}>
         {label}
       </label>
       {hint && !error && (
-        <p id={hintId} className="mt-2 text-[13px] text-muted">
+        <p id={hintId} className="mt-2 text-[13px] text-subtle">
           {hint}
         </p>
       )}
@@ -108,7 +108,7 @@ export function Textarea({ label, error, hint, ...rest }: TextareaProps) {
         aria-invalid={error ? true : undefined}
         aria-describedby={error ? errorId : undefined}
         className={`${FIELD} resize-none ${
-          error ? "border-error focus:border-error" : "border-steel focus:border-orange"
+          error ? "border-error focus:border-error" : "border-line focus:border-orange"
         }`}
       />
       <label htmlFor={id} className={`${LABEL} font-[family-name:var(--font-mono)]`}>

@@ -92,7 +92,7 @@ export function Club() {
           )}
 
           {brand.address && (
-            <address className="t-body not-italic text-muted">{brand.address}</address>
+            <address className="t-body not-italic text-subtle">{brand.address}</address>
           )}
         </Reveal>
       </div>

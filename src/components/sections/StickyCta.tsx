@@ -59,7 +59,7 @@ export function StickyCta() {
 
   return (
     <div
-      className={`fixed inset-x-0 bottom-0 z-30 border-t border-steel bg-ink/95 p-4 backdrop-blur transition-transform duration-300 ease-[var(--ease-out-strong)] lg:hidden ${
+      className={`fixed inset-x-0 bottom-0 z-30 border-t border-line bg-page/95 p-4 backdrop-blur transition-transform duration-300 ease-[var(--ease-out-strong)] lg:hidden ${
         visible ? "translate-y-0" : "translate-y-full"
       }`}
       // Hidden from assistive tech while off screen so it is not a phantom stop.

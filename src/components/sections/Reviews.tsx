@@ -48,7 +48,7 @@ export function Reviews() {
       {single ? (
         <Reveal className="mt-14 lg:mt-20">
           <figure className="max-w-[24ch] lg:max-w-[20ch]">
-            <blockquote className="t-h2 text-white">
+            <blockquote className="t-h2 text-strong">
               {publishable[0]!.quote}
             </blockquote>
             {publishable[0]!.author && (
@@ -63,8 +63,8 @@ export function Reviews() {
           {publishable.map((review, index) => (
             <Reveal key={review.id} delay={index * 60} className="mb-5 break-inside-avoid lg:mb-6">
               {review.kind === "quote" ? (
-                <figure className="rounded-[var(--radius-card)] border border-steel p-7">
-                  <blockquote className="t-body-l text-chalk">{review.quote}</blockquote>
+                <figure className="rounded-[var(--radius-card)] border border-line p-7">
+                  <blockquote className="t-body-l text-body">{review.quote}</blockquote>
                   {review.author && (
                     <figcaption className="t-eyebrow mt-6">{review.author}</figcaption>
                   )}
