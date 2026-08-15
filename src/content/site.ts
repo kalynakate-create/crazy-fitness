@@ -117,20 +117,29 @@ export const brand = {
 
 export const hero = {
   /**
-   * COPY DIRECTION. The final headline is [CLIENT DATA REQUIRED] (Stage 5);
-   * this is the line the blueprint's own wireframe carries, split into the
-   * three masked lines the load sequence reveals in turn.
+   * COPY DIRECTION, still [CLIENT DATA REQUIRED] for final wording (Stage 5).
+   *
+   * Replaces "Форма, яка залишається", which was placeholder text lifted from
+   * the wireframe and told a visitor arriving from Instagram nothing: not who
+   * this is, not who it is for. This says the one thing no other trainer in
+   * Lubny can claim as plainly, and it is short enough that the display size
+   * can never crop it.
    */
-  headlineLines: ["Форма,", "яка", "залишається"],
-  sub: "Тренер і нутриціолог.",
-  /** 9:16 vertical portrait, eyes in the upper third. Stage 4 / Stage 24. */
-  photo: null as string | null,
-  actionCard: {
-    title: "Консультація",
-    durationMin: 60,
-    priceFromAmount: null as number | null,
-    cta: "Обрати час",
-  },
+  headlineLines: ["Одна людина.", "Один план."],
+  sub: "Тренер і нутриціолог. Працюю з жінками в Лубнах і онлайн.",
+
+  /**
+   * The hero asks the funnel's own first question and takes the answer here,
+   * so arriving at the form means step 1 is already behind you. The values
+   * are the Stage 9 goal enum, not new copy invented for the hero.
+   */
+  question: "З чого почнемо?",
+  entries: [
+    { goal: "start" as LeadGoal, label: "З нуля" },
+    { goal: "plateau" as LeadGoal, label: "Зрушити з плато" },
+    { goal: "nutrition" as LeadGoal, label: "Розібратись з їжею" },
+  ],
+
   secondary: { label: "Програма харчування", href: "/program" },
 };
 

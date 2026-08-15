@@ -233,7 +233,12 @@
   .t-display {
     font-family: var(--font-display);
     font-weight: 800;
-    font-size: clamp(24px, 6.2vw, 74px);
+    /* The floor was set for the old three-line headline and left the mobile
+       hero at 24px, which does not read as a headline at all. The rebuilt
+       headline is short, so the floor can rise; measured against "Одна людина."
+       it clears the content column at 320px with room to spare. Desktop keeps
+       its 74px ceiling. */
+    font-size: clamp(26px, 8.2vw, 74px);
     line-height: 0.95;
     letter-spacing: -0.03em;
     text-transform: uppercase;

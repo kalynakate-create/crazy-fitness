@@ -16,7 +16,6 @@ import {
   brand,
   club,
   faq,
-  hero,
   product,
   reviews,
   services,
@@ -39,8 +38,8 @@ function collect(): Gap[] {
   add(brand.address, "Адреса клубу", "Секція «Атмосфера», футер");
   add(brand.legalEntity, "Реквізити ФОП", "Футер, /offer");
 
-  add(hero.photo, "Hero-портрет 9:16", "Перший екран");
-  add(hero.actionCard.priceFromAmount, "Ціна консультації", "Картка дії в Hero");
+  // The hero no longer waits on anything: it was rebuilt to need no
+  // photograph and no price, so both of its former blockers are gone.
 
   add(about.story, "Історія Анастасії", "Секція «Про»");
   add(about.credentials, "Освіта / сертифікати", "Секція «Про»");
