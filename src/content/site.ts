@@ -52,18 +52,14 @@ export const brand = {
   /** First name is a fact: the wordmark itself reads "BY ANASTASIA". */
   ownerName: "Анастасія",
 
-  /** Surname, for the About H2 and the SEO title. Stage 5, section 05. */
-  fullName: null as string | null,
+  /** Confirmed by the client. Used in the About H2 and the SEO title. */
+  fullName: "Анастасія Товкач",
 
   /** [IG] Stated on the club profile: "місто Лубни". Used in the SEO title. */
   city: "Лубни",
 
-  /**
-   * Street address. The club profile has an "Адреса клубу" highlight, but its
-   * contents are inside a story and were not read. Not guessing at an address
-   * people would drive to.
-   */
-  address: null as string | null,
+  /** Confirmed by the client. City appended from the [IG] fact above. */
+  address: "вул. Ярослава Мудрого, 26, Лубни",
 
   /**
    * Logo files, in /public/logo/.

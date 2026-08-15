@@ -42,7 +42,7 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://crazyfitness.exampl
  * what is confirmed instead of shipping a bracket into the search results.
  */
 const title = [
-  `${brand.name} — ${brand.ownerName}`,
+  `${brand.name} — ${brand.fullName ?? brand.ownerName}`,
   ["Персональний тренер і нутриціолог", brand.city].filter(Boolean).join(" "),
 ].join(" | ");
 
