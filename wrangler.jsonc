@@ -11,7 +11,10 @@
   // signing moved to WebCrypto precisely so the host stays a choice.
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "crazy-fitness",
-  "main": ".open-next/worker.js",
+  // Our own entry, which re-exports the generated worker and adds the rate
+  // limiting Durable Object. See worker.js for why it is not the generated
+  // file directly.
+  "main": "worker.js",
   "compatibility_date": "2026-08-15",
 
   // nodejs_compat is required by the Next.js adapter. The application code
@@ -25,7 +28,21 @@
 
   "observability": {
     "enabled": true
-  }
+  },
+
+  // Spam protection for the two POST endpoints.
+  //
+  // The counters have to be shared across isolates, and they have to be exact.
+  // Both cheaper options were measured against this deployment and neither
+  // holds: an in-memory Map refused nothing at all, and Cloudflare's built-in
+  // rate limiting binding let eleven of twelve requests through a ceiling of
+  // three. src/lib/rate-limiter-do.ts records both measurements.
+  //
+  // SQLite-backed, which is what the free plan provides.
+  "durable_objects": {
+    "bindings": [{ "name": "RATE_LIMITER", "class_name": "RateLimiter" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["RateLimiter"] }]
 
   // Secrets are NOT set here. Put them in the dashboard or via
   // `wrangler secret put <NAME>`, so they never enter the repository:

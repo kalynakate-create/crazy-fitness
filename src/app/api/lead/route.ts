@@ -41,7 +41,7 @@ export async function POST(req: Request) {
 
   // Loose ceiling first: stops hammering without charging a real person for a
   // typo. The tight limit is applied below, once we know this is a real lead.
-  if (isRateLimited(ip, "request")) {
+  if (await isRateLimited(ip, "request")) {
     return NextResponse.json({ error: "rate_limited" }, { status: 429 });
   }
 
@@ -59,7 +59,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "validation_failed" }, { status: 422 });
   }
 
-  if (isRateLimited(ip, "submit")) {
+  if (await isRateLimited(ip, "submit")) {
     return NextResponse.json({ error: "rate_limited" }, { status: 429 });
   }
 

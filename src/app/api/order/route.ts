@@ -39,7 +39,7 @@ export async function POST(req: Request) {
 
   const ip = clientIp(req);
 
-  if (isRateLimited(ip, "request")) {
+  if (await isRateLimited(ip, "request")) {
     return NextResponse.json({ error: "rate_limited" }, { status: 429 });
   }
 
@@ -51,7 +51,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "validation_failed" }, { status: 422 });
   }
 
-  if (isRateLimited(ip, "submit")) {
+  if (await isRateLimited(ip, "submit")) {
     return NextResponse.json({ error: "rate_limited" }, { status: 429 });
   }
 
