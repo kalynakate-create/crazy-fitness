@@ -70,9 +70,22 @@ export function trippedHoneypot(value: string | undefined): boolean {
   return typeof value === "string" && value.trim().length > 0;
 }
 
-/** A form completed faster than a human could read it. */
-export function submittedTooFast(renderedAt: number | undefined): boolean {
-  if (typeof renderedAt !== "number" || !Number.isFinite(renderedAt)) return false;
-  const elapsed = Date.now() - renderedAt;
-  return elapsed >= 0 && elapsed < MIN_FILL_MS;
+/**
+ * A form completed faster than a human could read it.
+ *
+ * Takes an elapsed duration measured on the client, not a client timestamp
+ * compared against server time. The original compared the two clocks, which
+ * only works when they agree: a visitor whose phone clock is a few minutes off
+ * would either have every submission silently swallowed as "too fast", or slip
+ * past the check entirely. Both are worse than no check, and the first loses
+ * real leads without a trace. Measuring start and end on the same clock makes
+ * skew cancel out.
+ *
+ * A bot can forge this number, but it could forge the timestamp equally well.
+ * This was always a weak signal; now it is a weak signal that cannot hurt a
+ * real person.
+ */
+export function submittedTooFast(elapsedMs: number | undefined): boolean {
+  if (typeof elapsedMs !== "number" || !Number.isFinite(elapsedMs)) return false;
+  return elapsedMs >= 0 && elapsedMs < MIN_FILL_MS;
 }

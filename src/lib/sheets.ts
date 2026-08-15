@@ -5,22 +5,56 @@
  * whole admin panel, and it costs nothing to run. Swapping this for a real
  * store later means changing this file only.
  *
- * The service-account JWT is signed with node:crypto rather than pulling in
+ * The service-account JWT is signed with WebCrypto rather than pulling in
  * googleapis, which would be roughly 50 MB of dependency for two HTTP calls.
+ *
+ * WebCrypto specifically, not node:crypto: `createSign` does not exist on
+ * Cloudflare Workers, so the Node version tied lead capture to a Node host.
+ * `crypto.subtle` is the one signing API that runs unchanged on Workers, on
+ * Vercel, and in local Node, which keeps the deployment target an open choice.
  */
 
-import { createSign } from "node:crypto";
 import type { Lead, Order } from "./types";
 
 const TOKEN_URL = "https://oauth2.googleapis.com/token";
 const SCOPE = "https://www.googleapis.com/auth/spreadsheets";
 
-function base64url(input: Buffer | string): string {
-  return Buffer.from(input)
-    .toString("base64")
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_")
-    .replace(/=+$/, "");
+/** Base64url over raw bytes, without Buffer, which Workers does not provide. */
+function base64url(bytes: Uint8Array): string {
+  let binary = "";
+  for (const byte of bytes) binary += String.fromCharCode(byte);
+  return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+
+function base64urlText(text: string): string {
+  return base64url(new TextEncoder().encode(text));
+}
+
+
+/**
+ * PEM (PKCS#8) to the DER bytes importKey expects.
+ *
+ * Backed by an explicit ArrayBuffer: since TypeScript 5.7 typed arrays carry
+ * their buffer type, and WebCrypto will not accept a possibly-SharedArrayBuffer
+ * view.
+ */
+function pemToDer(pem: string): Uint8Array<ArrayBuffer> {
+  const body = pem
+    .replace(/-----BEGIN [^-]+-----/, "")
+    .replace(/-----END [^-]+-----/, "")
+    .replace(/\s+/g, "");
+  const binary = atob(body);
+  const der = new Uint8Array(new ArrayBuffer(binary.length));
+  for (let i = 0; i < binary.length; i++) der[i] = binary.charCodeAt(i);
+  return der;
+}
+
+/** Same constraint as pemToDer: WebCrypto needs ArrayBuffer-backed bytes. */
+function utf8(text: string): Uint8Array<ArrayBuffer> {
+  const encoded = new TextEncoder().encode(text);
+  const bytes = new Uint8Array(new ArrayBuffer(encoded.length));
+  bytes.set(encoded);
+  return bytes;
 }
 
 let cachedToken: { value: string; expiresAt: number } | null = null;
@@ -36,8 +70,8 @@ async function accessToken(): Promise<string | null> {
   }
 
   const now = Math.floor(Date.now() / 1000);
-  const header = base64url(JSON.stringify({ alg: "RS256", typ: "JWT" }));
-  const claim = base64url(
+  const header = base64urlText(JSON.stringify({ alg: "RS256", typ: "JWT" }));
+  const claim = base64urlText(
     JSON.stringify({
       iss: email,
       scope: SCOPE,
@@ -47,10 +81,19 @@ async function accessToken(): Promise<string | null> {
     }),
   );
 
-  const signer = createSign("RSA-SHA256");
-  signer.update(`${header}.${claim}`);
-  const signature = base64url(signer.sign(key));
-  const assertion = `${header}.${claim}.${signature}`;
+  const signingKey = await crypto.subtle.importKey(
+    "pkcs8",
+    pemToDer(key),
+    { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" },
+    false,
+    ["sign"],
+  );
+  const signed = await crypto.subtle.sign(
+    "RSASSA-PKCS1-v1_5",
+    signingKey,
+    utf8(`${header}.${claim}`),
+  );
+  const assertion = `${header}.${claim}.${base64url(new Uint8Array(signed))}`;
 
   const res = await fetch(TOKEN_URL, {
     method: "POST",

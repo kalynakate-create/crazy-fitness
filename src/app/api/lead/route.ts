@@ -12,7 +12,6 @@
  * submission.
  */
 
-import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
 import { clientIp, isRateLimited, submittedTooFast, trippedHoneypot } from "@/lib/rate-limit";
 import { saveLead } from "@/lib/sheets";
@@ -34,7 +33,7 @@ export async function POST(req: Request) {
   /* Spam checks answer 200 rather than 4xx: a bot learns nothing from a
      success, and a false positive on a real person still looks like it worked
      while we watch the logs. */
-  if (trippedHoneypot(body.website) || submittedTooFast(body.renderedAt)) {
+  if (trippedHoneypot(body.website) || submittedTooFast(body.elapsedMs)) {
     return NextResponse.json({ ok: true });
   }
 
@@ -66,7 +65,8 @@ export async function POST(req: Request) {
 
   const now = new Date().toISOString();
   const lead: Lead = {
-    id: randomUUID(),
+    // Global WebCrypto, not node:crypto: available on Workers and on Node.
+    id: crypto.randomUUID(),
     createdAt: now,
     goal: body.goal,
     format: body.format,

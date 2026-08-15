@@ -98,7 +98,7 @@ export function CheckoutForm() {
           email: email.trim(),
           contact: contact.trim(),
           consent,
-          renderedAt: renderedAt.current,
+          elapsedMs: Date.now() - renderedAt.current,
           website: (event.currentTarget.elements.namedItem("website") as HTMLInputElement)
             ?.value,
           ...readUtm(),

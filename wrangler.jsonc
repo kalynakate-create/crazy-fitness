@@ -1,0 +1,35 @@
+{
+  // Cloudflare Workers deployment.
+  //
+  // This is the target where the site is a product rather than a preview: the
+  // lead endpoint and the checkout run here, which GitHub Pages cannot do at
+  // all. The Pages build stays as the design preview.
+  //
+  // Stage 18 of the blueprint named Vercel for this role. Cloudflare serves the
+  // same purpose; what mattered was a host that runs the API routes, not the
+  // specific vendor. Nothing in the code is Cloudflare-specific — the JWT
+  // signing moved to WebCrypto precisely so the host stays a choice.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "crazy-fitness",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-08-15",
+
+  // nodejs_compat is required by the Next.js adapter. The application code
+  // itself no longer imports node:crypto; this covers the framework's own use.
+  "compatibility_flags": ["nodejs_compat"],
+
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+
+  "observability": {
+    "enabled": true
+  }
+
+  // Secrets are NOT set here. Put them in the dashboard or via
+  // `wrangler secret put <NAME>`, so they never enter the repository:
+  //   TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID,
+  //   GOOGLE_SHEETS_ID, GOOGLE_SERVICE_ACCOUNT_EMAIL, GOOGLE_PRIVATE_KEY,
+  //   MONOBANK_TOKEN, MONOBANK_PAYMENT_URL
+}

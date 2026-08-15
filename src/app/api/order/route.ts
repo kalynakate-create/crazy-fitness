@@ -15,7 +15,6 @@
  * body. A price that arrives from the client is a price the client can change.
  */
 
-import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
 import { product } from "@/content/site";
 import { clientIp, isRateLimited, submittedTooFast, trippedHoneypot } from "@/lib/rate-limit";
@@ -65,7 +64,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "bad_request" }, { status: 400 });
   }
 
-  if (trippedHoneypot(body.website) || submittedTooFast(body.renderedAt)) {
+  if (trippedHoneypot(body.website) || submittedTooFast(body.elapsedMs)) {
     return NextResponse.json({ ok: true, paymentUrl: null });
   }
 
@@ -88,7 +87,8 @@ export async function POST(req: Request) {
   }
 
   const order: Order = {
-    id: randomUUID(),
+    // Global WebCrypto, not node:crypto: available on Workers and on Node.
+    id: crypto.randomUUID(),
     createdAt: new Date().toISOString(),
     productId: product.slug,
     buyerName: name,

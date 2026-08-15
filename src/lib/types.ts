@@ -85,8 +85,12 @@ export type LeadInput = {
   utmCampaign?: string;
   /** Honeypot. Bots fill it, humans never see it. Stage 9. */
   website?: string;
-  /** Client render timestamp, used for the sub-2-second submit check. */
-  renderedAt?: number;
+  /**
+   * How long the form was open, measured on the client. A duration, not a
+   * timestamp: comparing the visitor's clock to the server's breaks for anyone
+   * whose device clock is off. See submittedTooFast.
+   */
+  elapsedMs?: number;
 };
 
 /** Payload accepted by POST /api/order. */
@@ -96,7 +100,7 @@ export type OrderInput = {
   contact: string;
   consent: boolean;
   website?: string;
-  renderedAt?: number;
+  elapsedMs?: number;
   utmSource?: string;
   utmMedium?: string;
   utmCampaign?: string;

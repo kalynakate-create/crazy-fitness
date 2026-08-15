@@ -160,7 +160,7 @@ export function LeadForm() {
       note: note.trim() || undefined,
       consent,
       sourceSection: getCtaContext().sourceSection,
-      renderedAt: renderedAt.current,
+      elapsedMs: Date.now() - renderedAt.current,
       website: (event.currentTarget.elements.namedItem("website") as HTMLInputElement)
         ?.value,
       ...readUtm(),
