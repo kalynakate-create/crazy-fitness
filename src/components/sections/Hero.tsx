@@ -124,7 +124,7 @@ export function Hero() {
         {hero.sub}
       </p>
 
-      {/* The answers stand on the rule, each on its own tick. */}
+      {/* The answers stand on the rule, each claiming its own stretch of it. */}
       <div className="mt-14 lg:mt-20">
         <p className="t-h3 text-strong">{hero.question}</p>
 
@@ -141,20 +141,28 @@ export function Hero() {
                 <button
                   type="button"
                   onClick={() => choose(entry.goal, entry.label)}
-                  className="group relative w-full rounded-[var(--radius-card)] border border-line px-6 py-4 text-left transition-colors duration-200 hover:border-strong focus-visible:border-strong md:w-auto md:px-8"
+                  className="group relative flex w-full items-center justify-between gap-6 rounded-[var(--radius-card)] border border-line px-6 py-4 text-left transition-[border-color,background-color,scale] duration-200 hover:border-orange hover:bg-orange/5 focus-visible:border-orange active:scale-[0.985] md:w-auto md:px-8"
                 >
-                  <span className="t-button text-strong">{entry.label}</span>
-                  {/* The tick this answer stands on. It grows into the accent
-                      on hover and on keyboard focus, so the rule answers both
-                      kinds of input rather than only the mouse. */}
-                  {/* transition names `scale`, not `transform`: Tailwind v4
-                      compiles scale-y-* to the standalone scale property, so a
-                      transition on transform matches nothing and the tick
-                      would snap. Same trap as the floating label in Input. */}
+                  {/* This answer's stretch of the rule, claimed along it
+                      horizontally rather than hung beneath it as a tick. It
+                      sits exactly on the hairline above the chip, so hovering
+                      does not draw a new line, it colours in the one already
+                      there. Answers hover and keyboard focus alike.
+
+                      transition names `scale`: Tailwind v4 compiles scale-x-*
+                      to the standalone scale property, and naming `transform`
+                      would make it snap instead of sweep. */}
                   <span
                     aria-hidden="true"
-                    className="pointer-events-none absolute -top-6 left-6 h-6 w-px origin-top scale-y-50 bg-line transition-[scale,background-color] duration-300 ease-[var(--ease-out-strong)] group-hover:scale-y-100 group-hover:bg-orange group-focus-visible:scale-y-100 group-focus-visible:bg-orange md:left-8"
+                    className="pointer-events-none absolute -top-6 left-0 right-0 h-[2px] origin-left scale-x-0 bg-orange transition-[scale] duration-500 ease-[var(--ease-out-strong)] group-hover:scale-x-100 group-focus-visible:scale-x-100"
                   />
+                  <span className="t-button text-strong">{entry.label}</span>
+                  <span
+                    aria-hidden="true"
+                    className="text-accent-text opacity-0 transition-[translate,opacity] duration-300 ease-[var(--ease-out-strong)] group-hover:translate-x-1 group-hover:opacity-100 group-focus-visible:translate-x-1 group-focus-visible:opacity-100"
+                  >
+                    →
+                  </span>
                 </button>
               </li>
             ))}

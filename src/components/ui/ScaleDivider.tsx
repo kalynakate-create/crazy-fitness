@@ -32,12 +32,22 @@ const REACH = 96;
 /** Tallest a tick grows to, as a multiple of its resting height. */
 const LIFT = 2.4;
 
-function useCursorTicks<T extends HTMLElement>() {
-  const ref = useRef<T>(null);
+function useCursorTicks() {
+  /**
+   * Two nodes, not one.
+   *
+   * `host` is the hairline the ticks live in. `zone` is a padded band around
+   * it that catches the pointer. Listening on the rule itself made the effect
+   * unreachable: the rule is 14px tall, so hitting it on purpose is luck, and
+   * the interaction read as broken rather than as absent.
+   */
+  const ref = useRef<HTMLDivElement>(null);
+  const zoneRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const host = ref.current;
-    if (!host) return;
+    const zone = zoneRef.current ?? host;
+    if (!host || !zone) return;
 
     /* Ticks are built regardless of input device: they are the rule itself and
        look identical to the painted version. Only the reaction is gated, and
@@ -104,29 +114,32 @@ function useCursorTicks<T extends HTMLElement>() {
     observer.observe(host);
 
     if (!calm.matches) {
-      host.addEventListener("pointermove", onMove);
-      host.addEventListener("pointerleave", onLeave);
+      zone.addEventListener("pointermove", onMove);
+      zone.addEventListener("pointerleave", onLeave);
     }
 
     return () => {
       observer.disconnect();
-      host.removeEventListener("pointermove", onMove);
-      host.removeEventListener("pointerleave", onLeave);
+      zone.removeEventListener("pointermove", onMove);
+      zone.removeEventListener("pointerleave", onLeave);
       if (frame) cancelAnimationFrame(frame);
       host.replaceChildren();
     };
   }, []);
 
-  return ref;
+  return { ref, zoneRef };
 }
 
 export function ScaleDivider({ labels, className = "" }: ScaleDividerProps) {
-  const ref = useCursorTicks<HTMLDivElement>();
+  const { ref, zoneRef } = useCursorTicks();
 
   const rule = (
-    /* Falls back to the CSS-drawn rule when the effect does not run: the
-       element keeps its painted ticks and simply does not react. */
-    <div ref={ref} className="cf-rule scale-rule" aria-hidden="true" />
+    /* The negative margin cancels the padding, so the generous hit band costs
+       no layout. Falls back to the CSS-drawn rule when the effect does not
+       run: the element keeps its painted ticks and simply does not react. */
+    <div ref={zoneRef} className="-my-5 py-5">
+      <div ref={ref} className="cf-rule scale-rule" aria-hidden="true" />
+    </div>
   );
 
   if (!labels?.length) {
