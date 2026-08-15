@@ -139,15 +139,15 @@ export function Method() {
         <ol className="grid gap-16 lg:gap-24">
           {method.steps.map((step, index) => (
             <Reveal as="li" key={step.title} className="relative">
-              {/* Hollow and grey until the line arrives, then filled solid
-                  orange. The steps behind you read differently from the ones
-                  ahead, so the rail reports progress through the method rather
-                  than only marking where the steps are. */}
+              {/* White with an orange ring until the line arrives, then filled
+                  solid orange. The steps behind you read differently from the
+                  ones ahead, so the rail reports progress through the method
+                  rather than only marking where the steps are. */}
               <span
                 data-step-marker
                 data-lit="false"
                 aria-hidden="true"
-                className="absolute -left-10 top-1 size-[15px] rounded-full border-2 border-line bg-page transition-[background-color,border-color,scale] duration-300 ease-[var(--ease-out-strong)] data-[lit=true]:scale-110 data-[lit=true]:border-orange data-[lit=true]:bg-orange lg:-left-16 lg:size-[23px]"
+                className="absolute -left-10 top-1 size-[15px] rounded-full border-2 border-orange bg-card transition-[background-color,scale] duration-300 ease-[var(--ease-out-strong)] data-[lit=true]:scale-110 data-[lit=true]:bg-orange lg:-left-16 lg:size-[23px]"
               />
               <div className="grid gap-8 lg:grid-cols-[1fr_320px] lg:items-start lg:gap-14">
                 <div>
