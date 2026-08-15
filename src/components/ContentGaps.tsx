@@ -32,7 +32,9 @@ function collect(): Gap[] {
 
   add(brand.fullName, "Прізвище / повне ім'я", "Секція «Про», SEO title");
   add(brand.city, "Місто", "SEO title");
-  add(brand.telegramUrl, "Telegram-посилання", "FAQ CTA, футер, fallback форми");
+  // Not the form fallback any more: that falls back to Instagram, so a missing
+  // Telegram link no longer leaves a failed submission without a way out.
+  add(brand.telegramUrl, "Telegram-посилання", "FAQ CTA, футер");
   add(brand.email, "Email", "Футер");
   add(brand.responseTime, "Час відповіді на заявку", "Мікрокопі форми + FAQ #8");
   add(brand.address, "Адреса клубу", "Секція «Атмосфера», футер");

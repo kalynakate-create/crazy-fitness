@@ -19,7 +19,12 @@ export type AnalyticsEvent =
   | { name: "consultation_open"; params: { source_section: string } }
   | { name: "consultation_step_complete"; params: { step: 1 | 2 | 3 } }
   | { name: "consultation_submit"; params: { goal: string; format: string } }
-  | { name: "consultation_telegram_fallback_click"; params?: never }
+  /**
+   * The escape hatch after a failed submission. Carries the channel because it
+   * is no longer always Telegram: with no Telegram link set it points at
+   * Instagram, and a rise here means the form is losing people.
+   */
+  | { name: "consultation_fallback_click"; params: { channel: "telegram" | "instagram" } }
   | { name: "product_view"; params?: never }
   | { name: "product_cta_click"; params: { source_section: string } }
   | { name: "checkout_start"; params?: never }

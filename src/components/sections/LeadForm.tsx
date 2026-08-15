@@ -25,7 +25,7 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Honeypot, Input, Textarea } from "@/components/ui/Input";
 import { Reveal } from "@/components/ui/Reveal";
-import { brand, leadForm } from "@/content/site";
+import { brand, fallbackContact, leadForm } from "@/content/site";
 import { track } from "@/lib/analytics";
 import { getCtaContext, readUtm, subscribeCta } from "@/lib/cta";
 import { IS_STATIC_DEMO } from "@/lib/env";
@@ -370,22 +370,22 @@ export function LeadForm() {
                       className="rounded-[var(--radius-card)] border border-error/50 bg-error/10 p-5"
                     >
                       <p className="t-body text-body">
-                        Заявка не відправилась. Спробуй ще раз
-                        {brand.telegramUrl ? " або напиши мені напряму." : "."}
+                        Заявка не відправилась. Спробуй ще раз або напиши мені напряму.
                       </p>
-                      {brand.telegramUrl && (
-                        <div className="mt-4">
-                          <Button
-                            variant="ghost"
-                            href={brand.telegramUrl}
-                            onClick={() =>
-                              track({ name: "consultation_telegram_fallback_click" })
-                            }
-                          >
-                            Написати в Telegram →
-                          </Button>
-                        </div>
-                      )}
+                      <div className="mt-4">
+                        <Button
+                          variant="ghost"
+                          href={fallbackContact.url}
+                          onClick={() =>
+                            track({
+                              name: "consultation_fallback_click",
+                              params: { channel: fallbackContact.channel },
+                            })
+                          }
+                        >
+                          {fallbackContact.label} →
+                        </Button>
+                      </div>
                     </div>
                   )}
 

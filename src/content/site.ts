@@ -98,7 +98,7 @@ export const brand = {
   clubInstagramHandle: "@crazy_fitness__club",
   clubInstagramUrl: "https://instagram.com/crazy_fitness__club",
 
-  /** Telegram deep link. Until set, every Telegram fallback stays hidden. */
+  /** Telegram deep link. Until set, every Telegram-specific CTA stays hidden. */
   telegramUrl: null as string | null,
 
   email: null as string | null,
@@ -113,6 +113,24 @@ export const brand = {
   /** Sole-trader details for the footer and /offer. Stage 24. */
   legalEntity: null as string | null,
 } as const;
+
+/**
+ * Where to send someone when the form itself fails.
+ *
+ * This is the one place a missing channel must not simply hide the button.
+ * Everywhere else a null Telegram link removes an optional CTA and the page is
+ * merely quieter; here it left the error message telling a visitor to "try
+ * again" with no other way to reach anyone — and a retry hits the same
+ * failure. A form that has just lost someone's details is exactly when a way
+ * out has to exist.
+ *
+ * Telegram when it is set, otherwise Instagram, which is confirmed and is
+ * where she is already answering messages.
+ */
+export const fallbackContact: { url: string; label: string; channel: "telegram" | "instagram" } =
+  brand.telegramUrl
+    ? { url: brand.telegramUrl, label: "Написати в Telegram", channel: "telegram" }
+    : { url: brand.instagramUrl, label: "Написати в Instagram", channel: "instagram" };
 
 /* ========================================================================== */
 /* 01 HERO — Concept A "MANIFEST" + the action card from Concept C (Stage 4)  */
