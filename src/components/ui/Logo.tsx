@@ -43,10 +43,13 @@ export function Logo({
           src={asset(markSrc)}
           alt=""
           aria-hidden="true"
-          width={Math.round(26 * MARK_RATIO)}
-          height={26}
+          // 40px inside an 80px bar, 32px inside 64px: the mark takes half the
+          // header's height, which is where it stops reading as an afterthought
+          // without crowding the rule beneath it.
+          width={Math.round(40 * MARK_RATIO)}
+          height={40}
           priority
-          className={`h-[26px] w-auto ${className}`}
+          className={`h-8 w-auto lg:h-10 ${className}`}
         />
       );
     }
