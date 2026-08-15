@@ -25,8 +25,10 @@ export function Marquee({ children, duration = 40, className = "" }: MarqueeProp
     <div
       className={`w-full overflow-x-auto [scrollbar-width:none] motion-safe:overflow-hidden ${className}`}
     >
+      {/* Pauses under the cursor. A line that never stops is a line you cannot
+          finish reading, and these are the facts the section exists to state. */}
       <div
-        className="marquee-track"
+        className="marquee-track motion-safe:hover:[animation-play-state:paused]"
         style={{ "--marquee-duration": `${duration}s` } as React.CSSProperties}
       >
         <div className="flex shrink-0 items-center">{children}</div>
