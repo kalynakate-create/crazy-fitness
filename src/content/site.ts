@@ -525,11 +525,19 @@ export const faq: FaqItem[] = [
 export const leadForm = {
   eyebrow: "ЗАПИСАТИСЯ",
   heading: "Розкажи, з чим прийшла",
+  /**
+   * These answer "З чим ти прийшла?" while the hero's answer "З чого почнемo?",
+   * so the wording differs by grammar — that part is deliberate. What was not
+   * deliberate: `nutrition` and `other` had drifted in meaning too. "Харчування"
+   * named a topic where the hero named an intention, and "Інше" says something
+   * different from "not sure yet". Someone who steps back from step 2 met a
+   * different vocabulary for the choice she had just made.
+   */
   goals: [
     { value: "start", label: "Почати з нуля" },
     { value: "plateau", label: "Зрушити з плато" },
-    { value: "nutrition", label: "Харчування" },
-    { value: "other", label: "Інше" },
+    { value: "nutrition", label: "Розібратись з їжею" },
+    { value: "other", label: "Ще не знаю" },
   ] as { value: LeadGoal; label: string }[],
   formats: [
     { value: "personal", label: "Персональні" },

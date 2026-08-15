@@ -70,7 +70,10 @@ export function About() {
             )}
 
             <div className="mt-10">
-              <Button onClick={() => openLeadForm({ sourceSection: "hero" })}>
+              <Button
+                data-primary-cta=""
+                onClick={() => openLeadForm({ sourceSection: "hero" })}
+              >
                 {about.cta}
               </Button>
             </div>

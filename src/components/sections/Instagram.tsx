@@ -43,7 +43,16 @@ export function Instagram() {
                 src={src}
                 ratio="1 / 1"
                 sizes="(min-width: 1200px) 16vw, 45vw"
-                alt="Допис в Instagram"
+                /*
+                  Empty on purpose. All six carried the identical string
+                  "Допис в Instagram", so a screen reader read the same
+                  sentence six times and learned nothing from any of it. The
+                  tiles are not links and carry no information individually;
+                  the heading and the CTA below already say whose account this
+                  is and how to open it. Writing six real descriptions would
+                  mean inventing what is in photographs nobody has described.
+                */
+                alt=""
                 placeholderNote={index === 0 ? "Кадри без рамок" : undefined}
               />
             </Reveal>

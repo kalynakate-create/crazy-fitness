@@ -61,6 +61,13 @@ type CommonProps = {
   children: ReactNode;
   className?: string;
   fullWidth?: boolean;
+  /**
+   * Marks a button that opens the lead form, so the mobile sticky bar can get
+   * out of its way. Without it the bar sat on top of the section CTA it
+   * duplicates: two identical orange buttons a pixel apart, the lower one
+   * clipped. Only meaningful on the button form; links do not spread it.
+   */
+  "data-primary-cta"?: string;
 };
 
 type AsButton = CommonProps &

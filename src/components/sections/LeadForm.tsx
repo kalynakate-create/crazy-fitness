@@ -241,6 +241,33 @@ export function LeadForm() {
                 </fieldset>
               )}
 
+              {/*
+                What has already been answered.
+
+                Choosing a goal in the hero drops you straight onto step 2, so
+                without this the form opens mid-way through with no sign of what
+                it recorded. The answer was given on a different screen; the only
+                way to check it was "Назад", which meant leaving the question you
+                were on to verify something you had already decided.
+              */}
+              {step > 1 && goal && (
+                <p className="t-body mb-8 flex flex-wrap items-center gap-x-3 gap-y-1 text-subtle">
+                  <span>
+                    Мета:{" "}
+                    <span className="text-body">
+                      {leadForm.goals.find((o) => o.value === goal)?.label}
+                    </span>
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setStep(1)}
+                    className="underline underline-offset-4 hover:text-body"
+                  >
+                    змінити
+                  </button>
+                </p>
+              )}
+
               {step === 2 && (
                 <fieldset>
                   <legend className="t-h3 mb-8 text-strong">Який формат?</legend>

@@ -41,7 +41,10 @@ export function ForWhom() {
       </ul>
 
       <Reveal className="mt-12">
-        <Button onClick={() => openLeadForm({ sourceSection: "hero" })}>
+        <Button
+          data-primary-cta=""
+          onClick={() => openLeadForm({ sourceSection: "hero" })}
+        >
           {forWhom.cta}
         </Button>
       </Reveal>

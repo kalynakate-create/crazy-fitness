@@ -84,7 +84,10 @@ export function Reviews() {
       )}
 
       <Reveal className="mt-16">
-        <Button onClick={() => openLeadForm({ sourceSection: "hero" })}>
+        <Button
+          data-primary-cta=""
+          onClick={() => openLeadForm({ sourceSection: "hero" })}
+        >
           Записатися на консультацію
         </Button>
       </Reveal>
