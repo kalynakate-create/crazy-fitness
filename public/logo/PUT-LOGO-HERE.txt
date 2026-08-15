@@ -1,0 +1,17 @@
+﻿Put the logo artwork here, then set the paths in src/content/site.ts
+(brand.logo). Until a path is set the site uses a type-set stand-in.
+
+Expected files
+--------------
+  mark.svg        CF monogram. Header and the small pages. Renders at 26px, so
+                  vector matters more than pixel size.
+  mark-light.svg  Same monogram in a version that reads on the dark product
+                  band. Without it that band keeps the stand-in, because a dark
+                  logo on a dark ground is worse than no logo.
+  full.svg        Complete lockup, "CRAZY FITNESS BY ANASTASIA".
+
+SVG is strongly preferred. PNG works but will need a 2x export for the header
+and a much larger one for the footer lockup.
+
+Also still outstanding (Stage 24): the mark has never been tested on the actual
+page background. Every version supplied so far sits on white or on orange.

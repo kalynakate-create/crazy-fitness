@@ -65,6 +65,29 @@ export const brand = {
    */
   address: null as string | null,
 
+  /**
+   * Logo files, in /public/logo/.
+   *
+   * `null` means the file is not there yet and the type-set placeholder is
+   * used instead. Drop the real artwork in and set the path; nothing else
+   * needs changing.
+   *
+   * `mark` is the CF monogram, used in the header and on the small pages.
+   * `markLight` is the same mark in a version that survives the dark product
+   * band; if it stays null the dark band falls back to the placeholder rather
+   * than showing a dark logo on a dark ground.
+   * `full` is the complete lockup with "CRAZY FITNESS BY ANASTASIA".
+   *
+   * SVG is strongly preferred: the header renders the mark at 22px and the
+   * footer could use the lockup large, and one vector covers both without a
+   * second export.
+   */
+  logo: {
+    mark: null as string | null,
+    markLight: null as string | null,
+    full: null as string | null,
+  },
+
   instagramHandle: "@crazy_fitness_t.a",
   instagramUrl: "https://instagram.com/crazy_fitness_t.a",
 

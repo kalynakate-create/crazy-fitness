@@ -1,26 +1,56 @@
 /**
- * LOGO — placeholder, awaiting the vector file.
+ * LOGO
  *
- * ⚠ SWAP POINT. Stage 24 lists "логотип у векторі (SVG/AI/PDF), світла + темна
- * версія" as required before design. The four rasters we have show the mark on
- * white and on orange only, never on `ink`, so its contrast on the actual page
- * background is still unverified (Stage 12.1 flags this as an explicit action).
+ * Renders the real artwork when it exists in /public/logo/ and a type-set
+ * stand-in when it does not. The stand-in holds the correct size and spacing
+ * and is deliberately NOT a redrawing of the real monogram: tracing the CF
+ * ligature and dumbbell by eye from a screenshot produces a wrong logo that
+ * looks right enough to ship by accident.
  *
- * What renders below is set in the site's own display face. It is a stand-in
- * that holds the correct size and spacing, deliberately NOT a redrawing of the
- * real monogram: tracing the CF ligature and dumbbell by eye from a JPEG would
- * produce a wrong logo that looks right enough to ship by accident.
+ * To swap in the real thing: put the files in /public/logo/ and set the paths
+ * in `brand.logo` in content/site.ts. Nothing here needs editing.
  *
- * To swap: drop the SVG into /public/logo/ and replace the two spans below.
+ * On the dark product band the light variant is required; without it the
+ * stand-in is used, because a dark logo on a dark ground is worse than no logo.
  */
+
+import Image from "next/image";
+import { brand } from "@/content/site";
+import { asset } from "@/lib/asset";
 
 type LogoProps = {
   variant?: "monogram" | "wordmark";
+  /** Set on dark surfaces so the light artwork is chosen. */
+  onDark?: boolean;
   className?: string;
 };
 
-export function Logo({ variant = "monogram", className = "" }: LogoProps) {
+/** Intrinsic ratios; only used to reserve space, the SVG scales to fit. */
+const MARK_RATIO = 1.15;
+const FULL_RATIO = 2.6;
+
+export function Logo({
+  variant = "monogram",
+  onDark = false,
+  className = "",
+}: LogoProps) {
+  const markSrc = onDark ? brand.logo.markLight : brand.logo.mark;
+
   if (variant === "monogram") {
+    if (markSrc) {
+      return (
+        <Image
+          src={asset(markSrc)}
+          alt=""
+          aria-hidden="true"
+          width={Math.round(26 * MARK_RATIO)}
+          height={26}
+          priority
+          className={`h-[26px] w-auto ${className}`}
+        />
+      );
+    }
+
     return (
       <span
         className={`font-[family-name:var(--font-display)] text-[22px] font-extrabold leading-none tracking-[-0.04em] text-body ${className}`}
@@ -28,6 +58,19 @@ export function Logo({ variant = "monogram", className = "" }: LogoProps) {
       >
         CF
       </span>
+    );
+  }
+
+  if (brand.logo.full) {
+    return (
+      <Image
+        src={asset(brand.logo.full)}
+        alt=""
+        aria-hidden="true"
+        width={Math.round(72 * FULL_RATIO)}
+        height={72}
+        className={`h-auto w-full max-w-[320px] ${className}`}
+      />
     );
   }
 
