@@ -160,14 +160,25 @@ export function Footer() {
             <FootLink href="/offer">Публічна оферта</FootLink>
           </FootColumn>
 
+          {/* Address and ФОП details are different things and no longer share
+              a heading: the club address is a place you go, "Реквізити" is the
+              legal registration. The requisites block appears only once the
+              ФОП details exist, rather than standing over an address. */}
           {(brand.address || brand.legalEntity) && (
-            <div>
-              <p className="t-eyebrow mb-5">Реквізити</p>
+            <div className="grid gap-8">
               {brand.address && (
-                <address className="t-body not-italic text-subtle">{brand.address}</address>
+                <div>
+                  <p className="t-eyebrow mb-5">Клуб</p>
+                  <address className="t-body not-italic text-subtle">
+                    {brand.address}
+                  </address>
+                </div>
               )}
               {brand.legalEntity && (
-                <p className="t-body mt-3 text-subtle">{brand.legalEntity}</p>
+                <div>
+                  <p className="t-eyebrow mb-5">Реквізити</p>
+                  <p className="t-body text-subtle">{brand.legalEntity}</p>
+                </div>
               )}
             </div>
           )}
