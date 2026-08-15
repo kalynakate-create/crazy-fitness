@@ -22,7 +22,12 @@ export function Instagram() {
     : (Array.from({ length: 6 }, () => null) as (string | null)[]);
 
   return (
-    <section id="instagram" aria-labelledby="instagram-h" className="section bg-graphite">
+    <section
+      id="instagram"
+      aria-labelledby="instagram-h"
+      // Same scrollbar-width guard as the club gallery. See Club.tsx.
+      className="section overflow-x-clip bg-graphite"
+    >
       <div className="shell">
         <Reveal>
           <p className="t-eyebrow">{instagram.eyebrow}</p>

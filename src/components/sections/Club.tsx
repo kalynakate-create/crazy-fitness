@@ -30,7 +30,18 @@ export function Club() {
     : PLACEHOLDER_RATIOS.map((ratio) => ({ src: null, ratio }));
 
   return (
-    <section id="klub" aria-labelledby="klub-h" className="section">
+    <section
+      id="klub"
+      aria-labelledby="klub-h"
+      /*
+        overflow-x-clip because this section contains a horizontal scroller.
+        Where the browser draws a classic scrollbar, 100vw is wider than the
+        content box by the scrollbar's width, and that difference leaks out as
+        page-level horizontal scroll: measured 26px at a 320px viewport. `clip`
+        rather than `hidden` so it does not become a scroll container itself.
+      */
+      className="section overflow-x-clip"
+    >
       <div className="shell">
         <SectionHeader
           eyebrow={club.eyebrow}
