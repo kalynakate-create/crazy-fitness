@@ -1,0 +1,4 @@
+User-Agent: *
+Allow: /
+
+Sitemap: https://kalynakate-create.github.io/crazy-fitness/sitemap.xml

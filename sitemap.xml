@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url>
+<loc>https://kalynakate-create.github.io/crazy-fitness/</loc>
+<lastmod>2026-08-15T15:38:04.361Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>1</priority>
+</url>
+<url>
+<loc>https://kalynakate-create.github.io/crazy-fitness/program</loc>
+<lastmod>2026-08-15T15:38:04.361Z</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://kalynakate-create.github.io/crazy-fitness/privacy</loc>
+<lastmod>2026-08-15T15:38:04.361Z</lastmod>
+<changefreq>yearly</changefreq>
+<priority>0.2</priority>
+</url>
+<url>
+<loc>https://kalynakate-create.github.io/crazy-fitness/offer</loc>
+<lastmod>2026-08-15T15:38:04.361Z</lastmod>
+<changefreq>yearly</changefreq>
+<priority>0.2</priority>
+</url>
+</urlset>

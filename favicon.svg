@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!--
+    PLACEHOLDER FAVICON.
+    Stage 22 specifies the CF monogram from the real logo. Colours are now the
+    logo's measured ones (#252C36 and #FF5E00) rather than approximations, so
+    the tab icon at least sits in the right palette until the vector arrives.
+  -->
+  <rect width="64" height="64" rx="8" fill="#252C36"/>
+  <text x="32" y="43" text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif" font-size="30" font-weight="700"
+        letter-spacing="-1" fill="#FFFFFF">C<tspan fill="#FF5E00">F</tspan></text>
+</svg>
