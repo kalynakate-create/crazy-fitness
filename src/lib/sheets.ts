@@ -167,7 +167,7 @@ export function saveOrder(order: Order): Promise<boolean> {
     order.buyerName,
     order.buyerEmail,
     order.buyerContact,
-    order.amount,
+    order.amount ?? "",
     order.currency,
     order.paymentProvider,
     order.paymentStatus,

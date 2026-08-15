@@ -39,8 +39,14 @@ export type Lead = Utm & {
   status: LeadStatus;
 };
 
-export type PaymentProvider = "monobank" | "wayforpay" | "liqpay" | "fondy";
-export type PaymentStatus = "pending" | "paid" | "failed" | "refunded";
+/**
+ * There is no electronic payment. Orders are settled directly with Anastasia
+ * and marked off by hand, so the only provider is "manual". The status field
+ * stays: she still needs to know which orders are paid and which are not, and
+ * she sets it herself in the sheet.
+ */
+export type PaymentProvider = "manual";
+export type PaymentStatus = "pending" | "paid" | "cancelled";
 export type DeliveryStatus = "pending" | "delivered";
 
 export type Order = Utm & {
@@ -50,8 +56,12 @@ export type Order = Utm & {
   buyerName: string;
   buyerContact: string;
   buyerEmail: string;
-  /** Kopiykas. Integer only — never a float for money. */
-  amount: number;
+  /**
+   * Kopiykas, integer only — never a float for money. Null when the price has
+   * not been set yet: with manual settlement the amount can be agreed in the
+   * conversation, so a missing price no longer has to block an order.
+   */
+  amount: number | null;
   currency: "UAH";
   paymentProvider: PaymentProvider;
   paymentStatus: PaymentStatus;

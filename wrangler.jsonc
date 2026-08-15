@@ -30,6 +30,6 @@
   // Secrets are NOT set here. Put them in the dashboard or via
   // `wrangler secret put <NAME>`, so they never enter the repository:
   //   TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID,
-  //   GOOGLE_SHEETS_ID, GOOGLE_SERVICE_ACCOUNT_EMAIL, GOOGLE_PRIVATE_KEY,
-  //   MONOBANK_TOKEN, MONOBANK_PAYMENT_URL
+  //   GOOGLE_SHEETS_ID, GOOGLE_SERVICE_ACCOUNT_EMAIL, GOOGLE_PRIVATE_KEY
+  // There are no payment secrets: settlement is manual.
 }

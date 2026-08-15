@@ -23,10 +23,13 @@ export type AnalyticsEvent =
   | { name: "product_view"; params?: never }
   | { name: "product_cta_click"; params: { source_section: string } }
   | { name: "checkout_start"; params?: never }
-  | {
-      name: "purchase_complete";
-      params: { value: number; currency: string; product_id: string };
-    }
+  /**
+   * A request for the programme, not a sale. There is no electronic payment,
+   * so nothing has been paid when this fires. It is deliberately not mirrored
+   * into Meta's Purchase event: optimising ad delivery for a conversion that
+   * has not happened teaches the pixel the wrong thing.
+   */
+  | { name: "order_request_submitted"; params: { product_id: string } }
   | { name: "telegram_click"; params: { source_section: string } }
   | { name: "instagram_click"; params: { source_section: string } }
   | { name: "faq_item_open"; params: { question_id: string } };
@@ -34,7 +37,8 @@ export type AnalyticsEvent =
 /** Conversion events are mirrored into Meta Pixel under its own names. */
 const META_MIRROR: Partial<Record<AnalyticsEvent["name"], string>> = {
   consultation_submit: "Lead",
-  purchase_complete: "Purchase",
+  // The programme request is a Lead too, not a Purchase: no money has moved.
+  order_request_submitted: "Lead",
 };
 
 declare global {

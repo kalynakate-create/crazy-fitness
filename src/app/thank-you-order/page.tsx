@@ -6,29 +6,28 @@ import { Logo } from "@/components/ui/Logo";
 import { brand, product } from "@/content/site";
 
 /**
- * /thank-you-order — after payment.
+ * /thank-you-order — after a programme request.
  *
- * On the MVP the product is delivered by hand (Stage 7), so the honest job of
- * this page is to say when it arrives and where from. Promising an instant
- * download that a person then has to send manually would be the one broken
- * promise a buyer definitely notices.
+ * Not "after payment": there is no electronic payment, so nothing has been paid
+ * at this point. The page's job is to say plainly what happens next, because
+ * the one thing that would break trust here is implying a completed purchase
+ * and then asking for money afterwards.
  */
 export const metadata: Metadata = {
-  title: "Дякую за покупку | Crazy Fitness",
+  title: "Заявку на програму прийнято | Crazy Fitness",
   robots: { index: false, follow: true },
 };
 
 export default function ThankYouOrderPage() {
   return (
     <main className="grid min-h-svh place-items-center px-5 py-24">
+      {/* Reaching this page is a request, not a sale: no money has moved yet.
+          Reporting it as a purchase would inflate revenue in GA4 and teach the
+          Meta pixel to optimise for a conversion that has not happened. */}
       <TrackView
         event={{
-          name: "purchase_complete",
-          params: {
-            value: (product.priceAmount ?? 0) / 100,
-            currency: product.currency,
-            product_id: product.slug,
-          },
+          name: "order_request_submitted",
+          params: { product_id: product.slug },
         }}
       />
 
@@ -41,16 +40,16 @@ export default function ThankYouOrderPage() {
           <Logo variant="monogram" />
         </Link>
 
-        <h1 className="t-h1 mt-12 text-strong">Оплата отримана</h1>
+        <h1 className="t-h1 mt-12 text-strong">Заявку прийнято</h1>
 
         <p className="t-body-l mt-8 text-subtle">
-          {product.deliveryHours
-            ? `Надішлю ${product.name.toLowerCase()} протягом ${product.deliveryHours} год на пошту, яку ти вказала, і продублюю в Telegram.`
-            : `Надішлю ${product.name.toLowerCase()} на пошту, яку ти вказала, і продублюю в Telegram.`}
+          Напишу тобі особисто, домовимось про оплату, і після неї надішлю{" "}
+          {product.name.toLowerCase()} на пошту, яку ти вказала, та продублюю в
+          Telegram.
         </p>
 
         <p className="t-body mt-6 text-subtle">
-          Не прийшло? Напиши мені, розберемось.
+          Якщо зручніше — можеш написати першою.
         </p>
 
         <div className="mt-12 flex flex-wrap items-center gap-6">

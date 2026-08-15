@@ -1,18 +1,14 @@
 /**
- * POST /api/order — Stage 7 / Stage 18.
+ * POST /api/order — Stage 7, with the payment step removed.
  *
- * We do not build a checkout UI. The order is recorded, then the buyer is sent
- * to the payment provider's own hosted page, which is the actual checkout. That
- * is the whole MVP: no cart, no e-commerce engine, one product at a fixed
- * price, delivery by hand.
+ * There is no electronic payment. This records the request and tells Anastasia
+ * about it; she then settles and delivers directly. So the route no longer
+ * creates an invoice or hands back a redirect — it behaves exactly like the
+ * lead endpoint, for a request that happens to name a product.
  *
- * Monobank is the default because a ФОП can raise an invoice there with the
- * lowest integration cost in Ukraine. If MONOBANK_TOKEN is set we create a real
- * invoice; otherwise we fall back to a static payment link, which is enough to
- * start selling on day one.
- *
- * Amount is read from the server-side content file, never from the request
- * body. A price that arrives from the client is a price the client can change.
+ * The amount comes from the server-side content file, never from the request
+ * body, and may be null: with manual settlement the price can be agreed in the
+ * conversation, so a missing price no longer blocks the order.
  */
 
 import { NextResponse } from "next/server";
@@ -24,36 +20,9 @@ import type { Order, OrderInput } from "@/lib/types";
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-async function monobankInvoice(order: Order): Promise<string | null> {
-  const token = process.env.MONOBANK_TOKEN;
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-  if (!token) return process.env.MONOBANK_PAYMENT_URL ?? null;
-
-  try {
-    const res = await fetch("https://api.monobank.ua/api/merchant/invoice/create", {
-      method: "POST",
-      headers: { "X-Token": token, "Content-Type": "application/json" },
-      body: JSON.stringify({
-        amount: order.amount,
-        ccy: 980, // UAH
-        merchantPaymInfo: {
-          reference: order.id,
-          destination: product.name,
-        },
-        redirectUrl: `${siteUrl}/thank-you-order`,
-        webHookUrl: `${siteUrl}/api/payment-webhook`,
-      }),
-    });
-    if (!res.ok) return process.env.MONOBANK_PAYMENT_URL ?? null;
-    const json = (await res.json()) as { pageUrl?: string };
-    return json.pageUrl ?? process.env.MONOBANK_PAYMENT_URL ?? null;
-  } catch {
-    return process.env.MONOBANK_PAYMENT_URL ?? null;
-  }
-}
-
 export async function POST(req: Request) {
-  if (!product.active || product.priceAmount === null) {
+  // Only `active` gates the form now; the price does not.
+  if (!product.active) {
     return NextResponse.json({ error: "product_unavailable" }, { status: 409 });
   }
 
@@ -65,7 +34,7 @@ export async function POST(req: Request) {
   }
 
   if (trippedHoneypot(body.website) || submittedTooFast(body.elapsedMs)) {
-    return NextResponse.json({ ok: true, paymentUrl: null });
+    return NextResponse.json({ ok: true });
   }
 
   const ip = clientIp(req);
@@ -96,7 +65,7 @@ export async function POST(req: Request) {
     buyerContact: contact,
     amount: product.priceAmount,
     currency: "UAH",
-    paymentProvider: "monobank",
+    paymentProvider: "manual",
     paymentStatus: "pending",
     deliveryStatus: "pending",
     sourceSection: "product",
@@ -105,10 +74,9 @@ export async function POST(req: Request) {
     utmCampaign: body.utmCampaign,
   };
 
-  const [stored, notified, paymentUrl] = await Promise.all([
+  const [stored, notified] = await Promise.all([
     saveOrder(order).catch(() => false),
     notifyOrder(order).catch(() => false),
-    monobankInvoice(order),
   ]);
 
   if (!stored && !notified) {
@@ -116,10 +84,5 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "delivery_failed" }, { status: 502 });
   }
 
-  if (!paymentUrl) {
-    console.error("[order] no payment url configured", { id: order.id });
-    return NextResponse.json({ error: "payment_unconfigured" }, { status: 503 });
-  }
-
-  return NextResponse.json({ ok: true, paymentUrl });
+  return NextResponse.json({ ok: true });
 }

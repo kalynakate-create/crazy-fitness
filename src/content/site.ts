@@ -396,8 +396,8 @@ export const programPage = {
   /** Real spreads from the actual document. Never mocked-up screenshots. */
   spreads: [] as string[],
   how: [
-    "Оформлюєш замовлення на цій сторінці",
-    "Переходиш на сторінку оплати банку",
+    "Лишаєш заявку на цій сторінці",
+    "Я пишу тобі особисто, домовляємось про оплату",
     "Отримуєш програму на пошту та в Telegram",
     "Пишеш мені, якщо щось незрозуміло",
   ],

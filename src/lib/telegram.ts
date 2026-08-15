@@ -70,13 +70,14 @@ export function notifyLead(lead: Lead): Promise<boolean> {
 
 export function notifyOrder(order: Order): Promise<boolean> {
   const lines = [
-    "<b>Нове замовлення</b>",
+    "<b>Заявка на програму</b>",
     `Ім'я: <b>${escapeHtml(order.buyerName)}</b>`,
     `Email: <b>${escapeHtml(order.buyerEmail)}</b>`,
     `Контакт: <b>${escapeHtml(order.buyerContact)}</b>`,
-    `Сума: ${(order.amount / 100).toFixed(2)} ${order.currency}`,
-    `Оплата: ${order.paymentStatus}`,
-    "Видача: вручну, після підтвердження оплати",
+    order.amount === null
+      ? "Ціна: не вказана на сайті, домовитись у переписці"
+      : `Ціна: ${(order.amount / 100).toFixed(2)} ${order.currency}`,
+    "Оплата і видача — напряму, вручну",
   ];
   return send(lines.join("\n"));
 }

@@ -1,20 +1,19 @@
 "use client";
 
 /**
- * CHECKOUT — inline on /program, Stage 7 / Stage 2.
+ * PROGRAMME REQUEST — inline on /program, Stage 7 with the payment removed.
  *
- * Not a route. Not a modal. The form sits at the end of the page and hands off
- * to the bank's hosted payment page, which is the real checkout UI.
+ * Not a route. Not a modal. There is no electronic payment: this takes the
+ * request, Anastasia settles and delivers directly. So the form no longer
+ * pretends to be a checkout, and the microcopy says what actually happens next
+ * rather than promising a payment page that does not exist.
  *
- * The microcopy says out loud that an external page is coming ("Перейти до
- * оплати"). Hiding a redirect to a bank is how you lose people at the exact
- * moment they were about to pay.
- *
- * With no confirmed price the form does not render a disabled shell pretending
- * to be nearly ready. It says what is missing, because a price is not a
- * cosmetic gap.
+ * A missing price no longer blocks it either. With manual settlement the amount
+ * can be agreed in the conversation, so the page can take a request while the
+ * price is still being decided.
  */
 
+import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Honeypot, Input } from "@/components/ui/Input";
@@ -30,6 +29,7 @@ const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const REQUIRED = "Без цього я не зможу надіслати доступ";
 
 export function CheckoutForm() {
+  const router = useRouter();
   const renderedAt = useRef(Date.now());
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -60,15 +60,12 @@ export function CheckoutForm() {
     );
   }
 
-  if (!product.active || price === null) {
+  if (!product.active) {
     return (
       <div className="rounded-[var(--radius-card)] border border-line p-8">
-        <p className="t-eyebrow text-accent-text">
-          {product.active ? "Ціна ще не підтверджена" : "Тимчасово недоступно"}
-        </p>
+        <p className="t-eyebrow text-accent-text">Тимчасово недоступно</p>
         <p className="t-body mt-4 max-w-[46ch] text-subtle">
-          Купівля відкриється, щойно буде підтверджена вартість програми.
-          Напиши мені, і я повідомлю, коли вона запрацює.
+          Напиши мені, і я повідомлю, щойно програма знову буде доступна.
         </p>
       </div>
     );
@@ -105,11 +102,10 @@ export function CheckoutForm() {
         }),
       });
 
-      const json = (await res.json()) as { paymentUrl?: string };
-      if (!res.ok || !json.paymentUrl) throw new Error("no_payment_url");
-      window.location.href = json.paymentUrl;
+      if (!res.ok) throw new Error(String(res.status));
+      router.push("/thank-you-order");
     } catch {
-      setFailed("Не вдалося створити рахунок. Спробуй ще раз.");
+      setFailed("Заявка не відправилась. Спробуй ще раз.");
       setSending(false);
     }
   };
@@ -120,9 +116,11 @@ export function CheckoutForm() {
 
       <div className="flex items-baseline justify-between gap-6 border-b border-line pb-5">
         <span className="t-h3 text-strong">{product.name}</span>
-        <span className="font-[family-name:var(--font-mono)] text-[17px] text-accent-text">
-          {price}
-        </span>
+        {price && (
+          <span className="font-[family-name:var(--font-mono)] text-[17px] text-accent-text">
+            {price}
+          </span>
+        )}
       </div>
 
       <Input
@@ -188,11 +186,11 @@ export function CheckoutForm() {
       )}
 
       <Button type="submit" state={sending ? "loading" : "idle"} className="justify-self-start">
-        {sending ? "Перенаправляю на оплату…" : "Перейти до оплати"}
+        {sending ? "Надсилаю…" : "Хочу програму"}
       </Button>
 
       <p className="t-eyebrow normal-case tracking-[0.04em]">
-        Оплата відбувається на захищеній сторінці банку.
+        Напишу тобі особисто, домовимось про оплату і надішлю програму.
       </p>
     </form>
   );
