@@ -39,7 +39,7 @@
 
 import { useEffect, useLayoutEffect, useRef } from "react";
 import { Button } from "@/components/ui/Button";
-import { CTA_LABEL, hero } from "@/content/site";
+import { hero } from "@/content/site";
 import { track } from "@/lib/analytics";
 import { openLeadForm } from "@/lib/cta";
 import type { LeadGoal } from "@/lib/types";
@@ -168,26 +168,10 @@ export function Hero() {
         </div>
       </div>
 
-      <div
-        data-hero-tail
-        className="mt-12 flex flex-wrap items-center gap-x-10 gap-y-4 lg:mt-16"
-      >
+      <div data-hero-tail className="mt-12 lg:mt-16">
         <Button variant="ghost" href={hero.secondary.href}>
           {hero.secondary.label} →
         </Button>
-        <button
-          type="button"
-          onClick={() => {
-            track({
-              name: "hero_cta_click",
-              params: { cta_label: CTA_LABEL, target: "#zapys" },
-            });
-            openLeadForm({ sourceSection: "hero" });
-          }}
-          className="t-body text-subtle underline underline-offset-4 transition-colors hover:text-body"
-        >
-          Ще не знаю, з чого
-        </button>
       </div>
     </section>
   );

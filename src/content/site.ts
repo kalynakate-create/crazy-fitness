@@ -138,6 +138,9 @@ export const hero = {
     { goal: "start" as LeadGoal, label: "З нуля" },
     { goal: "plateau" as LeadGoal, label: "Зрушити з плато" },
     { goal: "nutrition" as LeadGoal, label: "Розібратись з їжею" },
+    // "Not sure" is an answer, not a failure to answer, so it sits with the
+    // others and carries the enum's `other` rather than leaving the goal blank.
+    { goal: "other" as LeadGoal, label: "Ще не знаю, з чого" },
   ],
 
   secondary: { label: "Програма харчування", href: "/program" },
