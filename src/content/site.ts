@@ -270,7 +270,11 @@ export const about = {
     "Тренер і нутриціолог в одній людині",
     "Засновниця клубу Crazy Fitness у Лубнах",
   ] as string[] | null,
-  portrait: null as string | null,
+  /**
+   * Supplied by Anastasia. Cropped to 4:5 with the neon behind her kept in
+   * frame, so the portrait carries the club rather than floating on black.
+   */
+  portrait: "/about/portrait.jpg" as string | null,
   cta: "Записатися на консультацію",
 };
 
@@ -438,7 +442,21 @@ export const club = {
   eyebrow: "CRAZY FITNESS CLUB",
   heading: "Тут працюють, а не фотографуються",
   caption: "Зал, у якому все відбувається.",
-  photos: [] as string[],
+  /**
+   * The section headline promises a room where people work, and until now it
+   * showed nothing at all — 1105px of empty rail under a claim about the place.
+   *
+   * Ordered for the rail's alternating 3/4 and 4/3 slots, and each one cropped
+   * to its slot rather than left to object-fit: the sources are tall phone
+   * frames, so a blind centre crop cut the neon out of the landscape tiles and
+   * pushed the class off the bottom edge.
+   */
+  photos: [
+    "/club/01.jpg", // sandbag work under the neon
+    "/club/02.jpg", // the floor mid-class, mats full
+    "/club/03.jpg", // balance boards and bands at the mirror
+    "/club/04.jpg", // barbell overhead, trampolines behind
+  ] as string[],
   /**
    * Stage 3 branch. `true` -> "Записатися на пробне" into #zapys.
    * `false` -> the section keeps its trust role but stops promising a slot
@@ -477,20 +495,27 @@ export const instagram = {
   eyebrow: "СТЕЖ ЗА ПРОЦЕСОМ",
   heading: brand.instagramHandle,
   /**
-   * [IG] Grid thumbnails from Anastasia's own profile, 360-512px wide. That is
-   * plenty at the size these tiles render (~230px on desktop) and is exactly
-   * what this section is: a window onto the feed.
+   * Curated, not just whatever the feed had at the top.
+   *
+   * The previous six were pulled straight off the profile and four of them
+   * argued against the section they sit in: a holiday balcony, a celebration
+   * with balloons, a photoshoot under trees, and a recipe card whose text is
+   * unreadable at the size these tiles render. Next to a page about training,
+   * that reads as a personal album.
+   *
+   * These six all show the work or the person doing it. The last two are full
+   * frames Anastasia sent rather than feed thumbnails, so they are sharp where
+   * the old ones were 360px wide and soft on a phone.
    *
    * Six, not eight, so the row divides cleanly at every breakpoint (6 / 3 / 2).
-   * Replace with fresh exports whenever the feed moves on.
    */
   posts: [
-    "/instagram/post-00.jpg",
-    "/instagram/post-01.jpg",
-    "/instagram/post-02.jpg",
-    "/instagram/post-04.jpg",
-    "/instagram/post-06.jpg",
-    "/instagram/post-10.jpg",
+    "/instagram/post-01.jpg", // trampoline class, full room
+    "/instagram/new-02.jpg", // plank under the sign
+    "/instagram/post-05.jpg", // the group outdoors
+    "/instagram/new-01.jpg", // Anastasia at the club
+    "/instagram/post-03.jpg", // outdoor session
+    "/instagram/post-00.jpg", // her own training
   ] as string[],
   cta: "Підписатися",
 };
