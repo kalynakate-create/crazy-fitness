@@ -23,12 +23,18 @@ type Variant = "primary" | "secondary" | "ghost";
 type State = "idle" | "loading" | "success" | "error";
 
 const BASE =
-  "t-button relative inline-flex items-center justify-center gap-2 " +
-  "rounded-[var(--radius-card)] transition-colors duration-200 " +
+  "t-button group relative inline-flex items-center justify-center gap-2 " +
+  "rounded-[var(--radius-card)] " +
+  "transition-[color,background-color,border-color,scale] duration-200 " +
   "disabled:cursor-not-allowed select-none";
 
-/** 52px tall so the tap target clears the 44px minimum. Stage 16. */
-const SIZE = "min-h-[52px] px-7 py-3";
+/**
+ * 52px tall so the tap target clears the 44px minimum (Stage 16), and a small
+ * press: the button gives under the finger and springs back on release. `scale`
+ * is a standalone property in Tailwind v4, composing with the magnetic pull
+ * (which drives `transform`) rather than fighting it.
+ */
+const SIZE = "min-h-[52px] px-7 py-3 motion-safe:active:scale-[0.97]";
 
 const VARIANT: Record<Variant, string> = {
   primary:
@@ -140,6 +146,38 @@ function Spinner() {
   );
 }
 
+/**
+ * The label rolls on hover: the visible copy slides up and out while an
+ * identical copy rises from below to replace it, so the button reacts with a
+ * small mechanical turn rather than only changing colour.
+ *
+ * The transition names `translate`, not `transform`: Tailwind v4 compiles
+ * -translate-y-full to the standalone translate property, and the magnetic
+ * pull already owns `transform`, so this keeps the two off each other.
+ *
+ * Gated on motion-safe: under reduced motion the incoming copy stays clipped
+ * below and nothing moves, leaving a plain button whose colour still responds.
+ * The second copy is aria-hidden so the label is not read twice.
+ */
+function RollingLabel({ children }: { children: ReactNode }) {
+  const row =
+    "flex items-center justify-center gap-2 " +
+    "transition-[translate] duration-[420ms] ease-[var(--ease-out-strong)]";
+  return (
+    <span className="relative block overflow-hidden">
+      <span className={`${row} motion-safe:group-hover:-translate-y-full`}>
+        {children}
+      </span>
+      <span
+        aria-hidden="true"
+        className={`${row} absolute inset-0 translate-y-full motion-safe:group-hover:translate-y-0`}
+      >
+        {children}
+      </span>
+    </span>
+  );
+}
+
 export function Button(props: ButtonProps) {
   const {
     variant = "primary",
@@ -163,10 +201,20 @@ export function Button(props: ButtonProps) {
     .filter(Boolean)
     .join(" ");
 
+  // Ghost reads as a text link and keeps its underline sweep; the roll would
+  // clip its descenders and fight the underline, so only the filled and
+  // outlined variants get it.
+  const label =
+    variant === "ghost" ? (
+      <span>{children}</span>
+    ) : (
+      <RollingLabel>{children}</RollingLabel>
+    );
+
   const body = (
     <>
       <span className={state === "loading" ? "invisible" : undefined}>
-        {children}
+        {label}
       </span>
       {state === "loading" && <Spinner />}
     </>
