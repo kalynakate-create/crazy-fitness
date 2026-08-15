@@ -66,9 +66,10 @@ export function NutritionTeaser() {
               </ul>
 
               <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
-                {/* Orange reaches 5.8:1 on this dark ground, so the accent can
-                    carry the price here even though it cannot on the light page. */}
-                <span className="font-[family-name:var(--font-mono)] text-[15px] text-orange">
+                {/* Not orange: on the softened band it measures 2.7:1, which
+                    fails outright. Orange survives here only as the graphic
+                    dashes, which are not text. */}
+                <span className="font-[family-name:var(--font-mono)] text-[15px] text-invert-body">
                   {price}
                 </span>
                 <span className="t-button relative inline-flex items-center gap-2 text-invert-body">

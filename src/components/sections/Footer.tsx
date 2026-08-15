@@ -26,9 +26,12 @@ export function Footer() {
       <div className="shell">
         <div className="grid gap-12 lg:grid-cols-[1fr_auto] lg:items-end">
           <div>
-            <p className="t-eyebrow">Готова почати?</p>
+            {/* Deliberately not "Розкажи, з чим прийшла": that is the lead
+                form's own heading a few hundred pixels above, and repeating it
+                made the page look like it had lost its place. */}
+            <p className="t-eyebrow">Наступний крок</p>
             <p className="t-h2 mt-5 max-w-[18ch] text-strong">
-              Розкажи, з чим прийшла
+              Відповім особисто
             </p>
           </div>
           <Button onClick={() => openLeadForm({ sourceSection: "hero" })}>

@@ -38,12 +38,16 @@
      the darkest of the light surfaces, and #6A6D74 reached only 4.23 there. */
   --color-subtle: #63666d;
 
-  /* The single inverted band, so the digital product reads as a different
-     kind of thing without needing a badge. */
-  --color-invert: #14161a;
-  --color-invert-body: #f2f1ed;
-  --color-invert-subtle: #9b9ea5;
-  --color-invert-line: #2f323a;
+  /* The single inverted band, so the digital product reads as a different kind
+     of thing without needing a badge.
+     Warm dark, not black. Near-black put a 16:1 jump against the page, which
+     read as a hole punched in the layout rather than a change of material.
+     This is 8:1: still unmistakably a different surface, no longer a shock,
+     and warm enough to belong to the same palette as the cream. */
+  --color-invert: #4e473d;
+  --color-invert-body: #f6f4ef;
+  --color-invert-subtle: #c2bdb2;
+  --color-invert-line: #6a6357;
 
   /* Accent: fills use orange, text uses the deep orange. */
   --color-orange: #f15a28;
@@ -198,13 +202,15 @@
   }
 
   /* Vertical rhythm, Stage 13: 88px mobile, 160px desktop. */
+  /* Dialled back from 88 / 160. The original rhythm belonged to the louder
+     scale; with calmer type it read as gaps rather than breathing room. */
   .section {
-    padding-block: 88px;
+    padding-block: 68px;
   }
 
   @media (min-width: 1200px) {
     .section {
-      padding-block: 160px;
+      padding-block: 112px;
     }
   }
 
@@ -227,8 +233,8 @@
   .t-display {
     font-family: var(--font-display);
     font-weight: 800;
-    font-size: clamp(26px, 8.2vw, 104px);
-    line-height: 0.92;
+    font-size: clamp(24px, 6.2vw, 74px);
+    line-height: 0.95;
     letter-spacing: -0.03em;
     text-transform: uppercase;
   }
